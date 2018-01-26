@@ -25,7 +25,8 @@ app.post('/', function(req, res){
 	// }
 	// Send message
 	slack.sendMessage({
-		'text': content_title,
+		'text': content_title
+	});
 		// 'attachments': [
 		// 	{
 		// 		'text': '',
@@ -44,7 +45,6 @@ app.post('/', function(req, res){
 		// 		]
 		// 	}
 		// ]
-	});
 	res.sendStatus(200);
 });
 
