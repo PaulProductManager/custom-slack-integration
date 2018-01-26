@@ -3,7 +3,11 @@ const	express = 	require('express'),
 	bodyParser = 	require('body-parser'),
 	port = 		process.env.PORT || 8080,
 	slack = 	require('./slack.js');
-const content_title = 'There was a minor error', content_msg, content_button_msg = 'button, content_button_url, content_button_fallback;
+const content_title = 'There was a minor error',
+	content_msg,
+	content_button_msg = 'button',
+	content_button_url,
+	content_button_fallback;
 
 app.use(bodyParser.json());
 
@@ -22,24 +26,24 @@ app.post('/', function(req, res){
 	// Send message
 	slack.sendMessage({
 		'text': content_title,
-		'attachments': [
-			{
-				'text': '',
-				'fallback': 'You are unable to choose an action',
-				'callback_id': 'wopr_game',
-				'color': '#ffffff',
-				'attachment_type': 'default',
-				'actions': [
-					{
-						'name': 'github',
-						'text': content_button_msg,
-						'style': 'primary',
-						'type': 'button',
-						'value': 'pull_request'
-					}
-				]
-			}
-		]
+		// 'attachments': [
+		// 	{
+		// 		'text': '',
+		// 		'fallback': 'You are unable to choose an action',
+		// 		'callback_id': 'wopr_game',
+		// 		'color': '#ffffff',
+		// 		'attachment_type': 'default',
+		// 		'actions': [
+		// 			{
+		// 				'name': 'github',
+		// 				'text': content_button_msg,
+		// 				'style': 'primary',
+		// 				'type': 'button',
+		// 				'value': 'pull_request'
+		// 			}
+		// 		]
+		// 	}
+		// ]
 	});
 	res.sendStatus(200);
 });
