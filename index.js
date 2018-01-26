@@ -3,14 +3,14 @@ const	express = 	require('express'),
 	bodyParser = 	require('body-parser'),
 	port = 		process.env.PORT || 8080,
 	slack = 	require('./slack.js');
-const content_title, content_msg, content_button_msg, content_button_url, content_button_fallback;
+const content_title = 'There was a minor error', content_msg, content_button_msg, content_button_url, content_button_fallback;
 
 app.use(bodyParser.json());
 
 app.post('/', function(req, res){
 	// Create content, depending on incoming source: GitHub, Jira
-	if (req.get('X-GitHub-Event')) {
-		switch (req.get('X-GitHub-Event')) {
+	if (req.get('X-GitHub-Event') == 'GitHub-Hookshot/c494ff1') {
+		switch (req.get('User-Agent')) {
 			case 'push':
 			case 'fork':
 			case 'watch':
@@ -40,8 +40,6 @@ app.post('/', function(req, res){
 				]
 			}
 		]
-
-
 	});
 	res.sendStatus(200);
 });
