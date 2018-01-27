@@ -18,37 +18,37 @@ app.post('/', function(req, res){
 			case 'push':
 			case 'fork':
 			case 'watch':
-				content_title = '*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your Code Review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
+				content_title = '*' + req.body.sender.login + '* requests your code review for Pull Request <' + req.body.repository.url + '| 1234>';
 				content_button_msg = 'View Pull Request';
 				break;
 		}
 	// }
 	// Send message
 	slack.sendMessage({
-		'text': content_title
+		'text': content_title,
+		'attachments': [
+			{
+				'text': '',
+				'fallback': 'You are unable to choose an action',
+				'callback_id': 'wopr_game',
+				'color': '#ffffff',
+				'attachment_type': 'default',
+				'actions': [
+					{
+						'name': 'github',
+						'text': content_button_msg,
+						'style': 'primary',
+						'type': 'button',
+						'value': 'pull_request'
+					}
+				]
+			}
+		]
 	});
 
-		// 'attachments': [
-		// 	{
-		// 		'text': '',
-		// 		'fallback': 'You are unable to choose an action',
-		// 		'callback_id': 'wopr_game',
-		// 		'color': '#ffffff',
-		// 		'attachment_type': 'default',
-		// 		'actions': [
-		// 			{
-		// 				'name': 'github',
-		// 				'text': content_button_msg,
-		// 				'style': 'primary',
-		// 				'type': 'button',
-		// 				'value': 'pull_request'
-		// 			}
-		// 		]
-		// 	}
-		// ]
 	res.sendStatus(200);
 });
-
+//'*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your code review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
 app.get('/', function(req, res){
 	res.send('hello!');
 });
