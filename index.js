@@ -18,8 +18,8 @@ app.post('/', function(req, res){
 			case 'push':
 			case 'fork':
 			case 'watch':
-				// content_title = '*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your Code Review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
-				// content_button_msg = 'View Pull Request';
+				content_title = 'test', //'*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your Code Review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
+				content_button_msg = 'View Pull Request';
 				break;
 		}
 	// }
