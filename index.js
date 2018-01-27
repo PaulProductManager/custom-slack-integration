@@ -13,16 +13,16 @@ app.use(bodyParser.json());
 
 app.post('/', function(req, res){
 	// Create content, depending on incoming source: GitHub, Jira
-	// if (req.get('User-Agent') == 'GitHub-Hookshot/c494ff1') {
+	if (req.get('User-Agent') == 'GitHub-Hookshot/c494ff1') {
 		switch (req.get('X-GitHub-Event')) {
 			case 'push':
 			case 'fork':
 			case 'watch':
-				content_title = '*' + req.body.sender.login + '* requests your code review for Pull Request <' + req.body.repository.url + '| 1234>';
+				content_title = '*' + req.body.sender.login + '* requests your code review for <' + req.body.repository.url + '|Pull Request 1234>';
 				content_button_msg = 'View Pull Request';
 				break;
 		}
-	// }
+	}
 	// Send message
 	slack.sendMessage({
 		'text': content_title,
