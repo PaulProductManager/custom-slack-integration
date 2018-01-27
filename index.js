@@ -16,7 +16,7 @@ app.post('/', function(req, res){
 	// Create content, depending on incoming source: GitHub, Jira
 	// == 'GitHub-Hookshot/c494ff1'
 	in_header_user_agent = req.get('User-Agent').toLowerCase();
-	if (in_header_user_agent.indexOf("github")) {
+	if (in_header_user_agent.indexOf("github") > -1) {
 		switch (req.get('X-GitHub-Event')) {
 			case 'push':
 			case 'fork':
