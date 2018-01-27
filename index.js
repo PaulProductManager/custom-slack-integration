@@ -14,14 +14,14 @@ app.use(bodyParser.json());
 app.post('/', function(req, res){
 	// Create content, depending on incoming source: GitHub, Jira
 	// if (req.get('User-Agent') == 'GitHub-Hookshot/c494ff1') {
-		// switch (req.get('X-GitHub-Event')) {
-		// 	case 'push':
-		// 	case 'fork':
-		// 	case 'watch':
-		// 		content_title = '*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your Code Review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
-		// 		content_button_msg = 'View Pull Request';
-		// 		break;
-		// }
+		switch (req.get('X-GitHub-Event')) {
+			case 'push':
+			case 'fork':
+			case 'watch':
+				// content_title = '*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your Code Review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
+				// content_button_msg = 'View Pull Request';
+				break;
+		}
 	// }
 	// Send message
 	slack.sendMessage({
