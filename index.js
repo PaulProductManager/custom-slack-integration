@@ -28,7 +28,7 @@ app.post('/', function(req, res){
 			case 'pull_request_review_comment':
 			case 'pull_request_review':
 			case 'pull_request':
-				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.url + '|' + req.body.pull_request.number + '>';
+				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 				break;
 		}
 	}
@@ -80,6 +80,9 @@ Tasks:
 	- Completed PR-comment format
 		- Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
 	- Completed PR-approval/reject format
+		- Captured when an "approval/reject" occurs
+			- If rejected, shows up as "red"
+		- Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
 
 
 - Escape all single-apostrophe's in the "out_" variables
