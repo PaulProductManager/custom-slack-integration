@@ -75,9 +75,9 @@ Tasks:
 	- Completed PR format
 		+ Captured correct PR 'author' variable in the out_title
 		- Captured correct PR variables into the out_title
-		- Captured correct PR variable into the out_channel
+		- Captured correct PR variable into the out_channel(s) / reviewer(s)
 	- Completed PR-comment format
-		- Captured correct PR variable(s) into the out_channel
+		- Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
 	- Completed PR-approval/reject format
 
 
