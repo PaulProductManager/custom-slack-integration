@@ -32,12 +32,13 @@ app.post('/', function(req, res){
 			case 'pull_request_review':
 			case 'pull_request':
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
-				for (let reviewer of req.body.requested_reviewers) {
-					if (reviewer.login == 'hujambo-dunia') {
+				// for (let reviewer of req.body.requested_reviewers) {
+				for (reviewer in req.body.pull_request.requested_reviewers) {
+					// if (reviewer.login == 'hujambo-dunia') {
 						out_channel.push('paul.promoboxx');
-					}
+					// }
 				}
-				out_title = " *** " + out_channel.join(', ');
+				out_title = out_title + " *** " + out_channel.join(', ');
 				break;
 		}
 	}
