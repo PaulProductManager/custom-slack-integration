@@ -13,9 +13,10 @@ let out_title = 'There was a minor error',
 app.use(bodyParser.json());
 
 app.post('/', function(req, res){
-	// Create content, depending on incoming source: GitHub, Jira
-	// == 'GitHub-Hookshot/c494ff1'
+	// Determine incoming source
 	in_header_user_agent = req.get('User-Agent').toLowerCase();
+
+	// Create content, depending on incoming source: GitHub, Jira
 	if (in_header_user_agent.indexOf("github") > -1) {
 		switch (req.get('X-GitHub-Event')) {
 			case 'push':
@@ -25,30 +26,29 @@ app.post('/', function(req, res){
 			case 'pull_request_review':
 			case 'pull_request':
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
-				out_button_msg = 'View Pull Request #1234';
 				break;
 		}
 	}
 	// Send message
 	slack.sendMessage({
-		'text': out_title,
-		'attachments': [
-			{
-				'text': '',
-				'fallback': 'You are unable to choose an action',
-				'callback_id': 'wopr_game',
-				'color': '#ffffff',
-				'attachment_type': 'default',
-				'actions': [
-					{
-						'name': 'github',
-						'text': out_button_msg,
-						'style': 'primary',
-						'type': 'button',
-						'value': 'pull_request'
-					}
-				]
-			}
+		'text': out_title
+		// 'attachments': [
+		// 	{
+		// 		'text': '',
+		// 		'fallback': 'You are unable to choose an action',
+		// 		'callback_id': 'wopr_game',
+		// 		'color': '#ffffff',
+		// 		'attachment_type': 'default',
+		// 		'actions': [
+		// 			{
+		// 				'name': 'github',
+		// 				'text': out_button_msg,
+		// 				'style': 'primary',
+		// 				'type': 'button',
+		// 				'value': 'pull_request'
+		// 			}
+		// 		]
+		// 	}
 		]
 	});
 
@@ -62,3 +62,12 @@ app.get('/', function(req, res){
 app.listen(port, function() {
     console.log('running on http://localhost:' + port);
 });
+
+
+/*
+Tasks:
+
+- Escape all single-apostrophe's in the "out_" variables
+
+
+*/
