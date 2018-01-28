@@ -5,6 +5,7 @@ const	express = 	require('express'),
 	slack = 	require('./slack.js');
 let in_header_user_agent = '';
 let out_title = 'There was a minor error',
+	out_channel = '',
 	out_msg = 'error',
 	out_button_msg = 'button',
 	out_button_url = 'error',
@@ -69,6 +70,16 @@ app.listen(port, function() {
 
 /*
 Tasks:
+
+- Completed Github integration
+	- Completed PR format
+		+ Captured correct PR 'author' variable in the out_title
+		- Captured correct PR variables into the out_title
+		- Captured correct PR variable into the out_channel
+	- Completed PR-comment format
+		- Captured correct PR variable(s) into the out_channel
+	- Completed PR-approval/reject format
+
 
 - Escape all single-apostrophe's in the "out_" variables
 
