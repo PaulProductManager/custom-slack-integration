@@ -22,10 +22,12 @@ app.post('/', function(req, res){
 			case 'push':
 			case 'fork':
 			case 'watch':  // star
+				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+				break;
 			case 'pull_request_review_comment':
 			case 'pull_request_review':
 			case 'pull_request':
-				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.url + '|' + req.body.pull_request.number + '>';
 				break;
 		}
 	}
