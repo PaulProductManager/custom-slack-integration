@@ -20,11 +20,11 @@ app.post('/', function(req, res){
 	// Create content, depending on incoming source: GitHub, Jira
 	if (in_header_user_agent.indexOf("github") > -1) {
 		switch (req.get('X-GitHub-Event')) {
-			case 'push':
-			case 'fork':
-			case 'watch':  // star
-				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
-				break;
+			// case 'push':
+			// case 'fork':
+			// case 'watch':  // star
+			// 	out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+			// 	break;
 			case 'pull_request_review_comment':
 			case 'pull_request_review':
 			case 'pull_request':
@@ -76,6 +76,7 @@ Tasks:
 		+ Captured correct PR 'author' variable in the out_title
 		- Captured correct PR variables into the out_title
 		- Captured correct PR variable into the out_channel(s) / reviewer(s)
+				req.body.requested_reviewers.login  (ie. "hujambo-dunia")
 	- Completed PR-comment format
 		- Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
 	- Completed PR-approval/reject format
