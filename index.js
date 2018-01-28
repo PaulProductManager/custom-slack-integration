@@ -3,9 +3,12 @@ const	express = 	require('express'),
 	bodyParser = 	require('body-parser'),
 	port = 		process.env.PORT || 8080,
 	slack = 	require('./slack.js');
+// const USER_MAP = {
+// 	'hujambo-dunia': 'michelle'
+// };
 let in_header_user_agent = '';
 let out_title = 'There was a minor error',
-	out_channel = '',
+	out_channel = [],
 	out_msg = 'error',
 	out_button_msg = 'button',
 	out_button_url = 'error',
@@ -29,6 +32,12 @@ app.post('/', function(req, res){
 			case 'pull_request_review':
 			case 'pull_request':
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+				for (let reviewer of req.body.requested_reviewers) {
+					if (reviewer.login == 'hujambo-dunia') {
+						out_channel.push('paul.promoboxx');
+					}
+				}
+				out_title = " *** " + out_channel.join(', ');
 				break;
 		}
 	}
@@ -74,7 +83,7 @@ Tasks:
 - Completed Github integration
 	- Completed PR format
 		+ Captured correct PR 'author' variable in the out_title
-		- Captured correct PR variables into the out_title
+		+ Captured correct PR variables into the out_title
 		- Captured correct PR variable into the out_channel(s) / reviewer(s)
 				req.body.requested_reviewers.login  (ie. "hujambo-dunia")
 	- Completed PR-comment format
