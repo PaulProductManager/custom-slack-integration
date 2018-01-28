@@ -29,6 +29,7 @@ app.post('/', function(req, res){
 				break;
 		}
 	}
+	//https://github.com/Promoboxx/pbxx2cp/pull/4570 and https://github.com/Promoboxx/pbxx2cp/pull/4570 please
 	// Send message
 	slack.sendMessage({
 		'text': out_title
