@@ -21,7 +21,7 @@ app.post('/', function(req, res){
 		switch (req.get('X-GitHub-Event')) {
 			case 'push':
 			case 'fork':
-			case 'watch':
+			case 'watch':  // star
 			case 'pull_request_review_comment':
 			case 'pull_request_review':
 			case 'pull_request':
