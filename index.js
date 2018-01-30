@@ -36,9 +36,11 @@ app.post('/', function(req, res){
 				// for (reviewer in req.body.pull_request.requested_reviewers) {
 				for (reviewer in req.body.pull_request.requested_reviewers) {
 					// if (reviewer.login == 'hujambo-dunia') {
-						// out_channel.push(reviewer.login);
-						out_channel.push(reviewer["login"]);
-						out_channel.push('TEST.USERA.length:' + req.body.pull_request.requested_reviewers.length);		// works.....
+						out_channel.push(req.body.pull_request.requested_reviewers.login);
+						// out_channel.push(reviewer["login"]);			// fails....NEXT UP:
+						// 			1- double-check the object NAME and PLACEMENT IN THE TREE
+						//			2- try using numerals to call the object as an array
+						out_channel.push('TEST.USERA.length:' + req.body.pull_request.requested_reviewers.length);		// works....
 						out_channel.push('TEST.USERB.length:' + req.body.pull_request.requested_reviewers.length);		// works.....
 						out_channel.push('TEST.USERC.length:' + req.body.pull_request.requested_reviewers.length);		// works.....
 					// }
