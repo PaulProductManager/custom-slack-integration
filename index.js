@@ -17,6 +17,7 @@ let out_title = 'There was a minor error',
 app.use(bodyParser.json());
 
 app.post('/', function(req, res){
+	out_channel = [];
 	// Determine incoming source
 	in_header_user_agent = req.get('User-Agent').toLowerCase();
 
