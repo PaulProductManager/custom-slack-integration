@@ -28,7 +28,6 @@ const USER_MAP = [
 // var getSubset = jsObjects.filter(function(e) {return e.b == 6;});
 // console.log( getSubset[0].a );
 
-
 let get_subset = [];
 let in_header_user_agent = '';
 let out_title = 'There was a minor error',
