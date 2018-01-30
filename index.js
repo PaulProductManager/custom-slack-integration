@@ -35,7 +35,7 @@ app.post('/', function(req, res){
 				for (reviewer in req.body.pull_request.requested_reviewers) {
 					// if (reviewer.login == 'hujambo-dunia') {
 						// out_channel.push(reviewer.login);
-						out_channel.push('TEST.USER');		// works.
+						out_channel.push('TEST.USER');		// works..
 					// }
 				}
 				out_title = out_title + " *** " + out_channel.join(', ');
