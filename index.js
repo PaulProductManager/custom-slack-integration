@@ -34,10 +34,11 @@ app.post('/', function(req, res){
 			case 'pull_request':
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 				// for (reviewer in req.body.pull_request.requested_reviewers) {
-				for (reviewer in req.body.pull_request.requested_reviewers) {
+				for (r = 0; r < req.body.pull_request.requested_reviewers.length) {
 					// if (reviewer.login == 'hujambo-dunia') {
 						// out_channel.push(req.body.pull_request.requested_reviewers[0].login);			// works, but hardcoded
-						out_channel.push(reviewer[0].login);			// works, but hardcoded
+						out_channel.push(req.body.pull_request.requested_reviewers[r].login);			// works, but hardcoded
+						// out_channel.push(reviewer[0].login);			// fails, but hardcoded
 						// out_channel.push(reviewer["login"]);			// fails....NEXT UP:
 						// 			1- double-check the object NAME and PLACEMENT IN THE TREE
 						//			2- try using numerals to call the object as an array
