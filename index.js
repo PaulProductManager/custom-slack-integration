@@ -71,8 +71,8 @@ app.post('/', function(req, res){
 	// Send message
 	for (var s = 0; s < out_channel.length; s++) {
 		slack.sendMessage({
-			'channel': '@U9159L4KE',
-			// 'channel': out_channel[s],
+			// 'channel': '@U9159L4KE',
+			'channel': out_channel[s],
 			'text': out_title
 			// 'attachments': [
 			// 	{
