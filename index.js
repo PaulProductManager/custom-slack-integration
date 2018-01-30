@@ -33,6 +33,7 @@ app.use(bodyParser.json());
 app.post('/', function(req, res){
 	out_channel = [];
 	get_subset = [];
+
 	// Determine incoming source
 	in_header_user_agent = req.get('User-Agent').toLowerCase();
 
@@ -47,7 +48,10 @@ app.post('/', function(req, res){
 			case 'pull_request_review_comment':
 			case 'pull_request_review':
 			case 'pull_request':
+				// create msg
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+
+				// get slack-channel users
 				for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
 					get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
 					if (get_subset.length === 1) {
