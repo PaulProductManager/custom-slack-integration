@@ -3,13 +3,36 @@ const	express = 	require('express'),
 	bodyParser = 	require('body-parser'),
 	port = 		process.env.PORT || 8080,
 	slack = 	require('./slack.js');
-// const USER_MAP = {
-// 	'hujambo-dunia': 'michelle'
-// paul=U8KG8HQJ2
-// john=U9159L4KE
+const USER_MAP = [
+	{
+		'email': 'paul.promoboxx@gmail.com',
+		'slack': '@U8KG8HQJ2',
+		'jira': 'XXXXXXXXXX',
+		'github': 'PaulProductManager'
+	},
+	{
+		'email': 'john.promoboxx@gmail.com',
+		'slack': '@U9159L4KE',
+		'jira': 'XXXXXXXXXX',
+		'github': 'hujambo-dunia'
+	}
+];
+
+// var jsObjects = [
+//   {'a': 1, b: 2},
+//   {'a': 3, b: 4},
+//   {'a': 5, b: 6},
+//   {'a': 7, b: 8}
+// ];
+
+// var getSubset = jsObjects.filter(function(e) {return e.b == 6;});
+// console.log( getSubset[0].a );
+
+// var get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+// console.log( get_subset[0].slack );
 
 
-// };
+let get_subset = [];
 let in_header_user_agent = '';
 let out_title = 'There was a minor error',
 	out_channel = [],
@@ -22,6 +45,7 @@ app.use(bodyParser.json());
 
 app.post('/', function(req, res){
 	out_channel = [];
+	get_subset = [];
 	// Determine incoming source
 	in_header_user_agent = req.get('User-Agent').toLowerCase();
 
@@ -38,36 +62,41 @@ app.post('/', function(req, res){
 			case 'pull_request':
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 				for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-						out_channel.push(req.body.pull_request.requested_reviewers[r].login);
+					get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+					// out_channel.push(req.body.pull_request.requested_reviewers[r].login);
+					out_channel.push(get_subset[0].slack);
 				}
 				out_title = out_title + " *** " + out_channel.join(', ');
 				break;
 		}
 	}
-	//https://github.com/Promoboxx/pbxx2cp/pull/4570 and https://github.com/Promoboxx/pbxx2cp/pull/4570 please
+
 	// Send message
-	slack.sendMessage({
-		'channel': '@U9159L4KE',
-		'text': out_title
-		// 'attachments': [
-		// 	{
-		// 		'text': '',
-		// 		'fallback': 'You are unable to choose an action',
-		// 		'callback_id': 'wopr_game',
-		// 		'color': '#ffffff',
-		// 		'attachment_type': 'default',
-		// 		'actions': [
-		// 			{
-		// 				'name': 'github',
-		// 				'text': out_button_msg,
-		// 				'style': 'primary',
-		// 				'type': 'button',
-		// 				'value': 'pull_request'
-		// 			}
-		// 		]
-		// 	}
-		// ]
-	});
+	for (var s = 0; s < out_channel.length; s++) {
+		slack.sendMessage({
+			'channel': '@U9159L4KE',
+			// 'channel': out_channel[s],
+			'text': out_title
+			// 'attachments': [
+			// 	{
+			// 		'text': '',
+			// 		'fallback': 'You are unable to choose an action',
+			// 		'callback_id': 'wopr_game',
+			// 		'color': '#ffffff',
+			// 		'attachment_type': 'default',
+			// 		'actions': [
+			// 			{
+			// 				'name': 'github',
+			// 				'text': out_button_msg,
+			// 				'style': 'primary',
+			// 				'type': 'button',
+			// 				'value': 'pull_request'
+			// 			}
+			// 		]
+			// 	}
+			// ]
+		});
+	}
 
 	res.sendStatus(200);
 });
