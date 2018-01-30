@@ -123,6 +123,4 @@ Tasks:
 
 - Create user-friendly UI where anyone can "link" up new users with their Slack-Channel-ID and Jira-ID (and Github-ID)
 	- see: https://api.slack.com/methods/channels.list
-
-
 */
