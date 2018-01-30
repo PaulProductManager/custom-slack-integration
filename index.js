@@ -50,7 +50,6 @@ app.post('/', function(req, res){
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 				for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
 					get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-					// out_channel.push(req.body.pull_request.requested_reviewers[r].login);
 					if (get_subset.length === 1) {
 						out_channel.push(get_subset[0].slack);
 					} else if (get_subset.length === 0) {
@@ -59,7 +58,7 @@ app.post('/', function(req, res){
 						out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
 					}
 				}
-				out_title = out_title + " *** " + out_channel.join(', ');
+				// out_title = out_title + " *** " + out_channel.join(', ');		// for testing
 				break;
 		}
 	}
@@ -67,7 +66,6 @@ app.post('/', function(req, res){
 	// Send message
 	for (var s = 0; s < out_channel.length; s++) {
 		slack.sendMessage({
-			// 'channel': '@U9159L4KE',
 			'channel': out_channel[s],
 			'text': out_title
 			// 'attachments': [
