@@ -34,7 +34,7 @@ app.post('/', function(req, res){
 			case 'pull_request':
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 				// for (reviewer in req.body.pull_request.requested_reviewers) {
-				for (r = 0; r < req.body.pull_request.requested_reviewers.length) {
+				for (r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
 					// if (reviewer.login == 'hujambo-dunia') {
 						// out_channel.push(req.body.pull_request.requested_reviewers[0].login);			// works, but hardcoded
 						out_channel.push(req.body.pull_request.requested_reviewers[r].login);			// works, but hardcoded
