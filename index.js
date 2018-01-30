@@ -35,7 +35,7 @@ app.post('/', function(req, res){
 				out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 				for (reviewer in req.body.pull_request.requested_reviewers) {
 					// if (reviewer.login == 'hujambo-dunia') {
-						// out_channel.push(reviewer.login);
+						out_channel.push(reviewer.login);
 						out_channel.push('TEST.USER');		// works.....
 					// }
 				}
