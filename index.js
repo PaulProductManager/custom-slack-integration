@@ -38,7 +38,7 @@ app.post('/', function(req, res){
 					// if (reviewer.login == 'hujambo-dunia') {
 						// out_channel.push(reviewer.login);
 						out_channel.push(reviewer.login);
-						out_channel.push('TEST.USER.length:' + req.body.pull_request.requested_reviewers.length);		// works......
+						out_channel.push('TEST.USER.length:' + req.body.pull_request.requested_reviewers.length);		// works.....
 					// }
 				}
 				out_title = out_title + " *** " + out_channel.join(', ');
