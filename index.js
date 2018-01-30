@@ -18,16 +18,6 @@ const USER_MAP = [
 	}
 ];
 
-// var jsObjects = [
-//   {'a': 1, b: 2},
-//   {'a': 3, b: 4},
-//   {'a': 5, b: 6},
-//   {'a': 7, b: 8}
-// ];
-
-// var getSubset = jsObjects.filter(function(e) {return e.b == 6;});
-// console.log( getSubset[0].a );
-
 let get_subset = [];
 let in_header_user_agent = '';
 let out_title = 'There was a minor error',
@@ -36,6 +26,7 @@ let out_title = 'There was a minor error',
 	out_button_msg = 'button',
 	out_button_url = 'error',
 	out_button_fallback = 'error';
+let out_error = [];
 
 app.use(bodyParser.json());
 
@@ -60,7 +51,13 @@ app.post('/', function(req, res){
 				for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
 					get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
 					// out_channel.push(req.body.pull_request.requested_reviewers[r].login);
-					out_channel.push(get_subset[0].slack);
+					if (get_subset.length === 1) {
+						out_channel.push(get_subset[0].slack);
+					} else if (get_subset.length === 0) {
+						out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+					} else {
+						out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+					}
 				}
 				out_title = out_title + " *** " + out_channel.join(', ');
 				break;
