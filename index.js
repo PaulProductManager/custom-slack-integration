@@ -35,7 +35,8 @@ app.post('/', function(req, res){
 				// for (let reviewer of req.body.requested_reviewers) {
 				for (reviewer in req.body.pull_request.requested_reviewers) {
 					// if (reviewer.login == 'hujambo-dunia') {
-						out_channel.push('paul.promoboxx');
+						out_channel.push(reviewer.login);
+						// out_channel.push('paul.promoboxx');
 					// }
 				}
 				out_title = out_title + " *** " + out_channel.join(', ');
@@ -86,7 +87,8 @@ Tasks:
 		+ Captured correct PR 'author' variable in the out_title
 		+ Captured correct PR variables into the out_title
 		- Captured correct PR variable into the out_channel(s) / reviewer(s)
-				req.body.requested_reviewers.login  (ie. "hujambo-dunia")
+				+ Captured Github-Username variaable
+				- Matched with outgoing Slack-Channel-Name variable
 	- Completed PR-comment format
 		- Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
 	- Completed PR-approval/reject format
