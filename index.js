@@ -87,8 +87,13 @@ app.post('/', function(req, res){
 		// 	}
 		// 	return toReturn;
 		// };
-
-		out_title = 'out: ' + request.body.read['webhookEvent'];   //bodyParser; //flattenObject;
+		out_title = '';
+		out_title = out_title + 'event type: ' + request.body['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
+		out_title = out_title + 'event type: ' + request.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
+		out_title = out_title + 'out: ' + request.body + ' // ';   //bodyParser; //flattenObject;
+		out_title = out_title + 'out: ' + request.body.read + ' // ';   //bodyParser; //flattenObject;
+		// out_title = out_title + 'out: ' + request.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
+		// out_title = out_title + 'out: ' + request.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
 		out_channel.push('@U9159L4KE');
 	}
 
