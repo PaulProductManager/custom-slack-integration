@@ -88,7 +88,7 @@ app.post('/', function(req, res){
 		// 	return toReturn;
 		// };
 		// if (req.body['webhookEvent']) {
-			// out_title = out_title + 'event type: ' + req.body['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
+			out_title = out_title + 'event type: ' + req.body['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
 		// }
 		// if (req.body.read['webhookEvent']) {
 			// out_title = out_title + 'event type: ' + req.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
