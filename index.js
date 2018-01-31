@@ -88,12 +88,12 @@ app.post('/', function(req, res){
 		// 	return toReturn;
 		// };
 		out_title = '';
-		if (req.body['webhookEvent']) {
+		// if (req.body['webhookEvent']) {
 			out_title = out_title + 'event type: ' + req.body['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
-		}
-		if (req.body.read['webhookEvent']) {
+		// }
+		// if (req.body.read['webhookEvent']) {
 			out_title = out_title + 'event type: ' + req.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
-		}
+		// }
 		// out_title = out_title + 'out: ' + request.body + ' // ';   //bodyParser; //flattenObject;
 		// out_title = out_title + 'out: ' + request.body.read + ' // ';   //bodyParser; //flattenObject;
 		// out_title = out_title + 'out: ' + request.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
