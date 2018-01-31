@@ -68,7 +68,7 @@ app.post('/', function(req, res){
 	}
 
 	if (in_header_user_agent.indexOf("atlassian") > -1) {
-		out_title = 'out: ' + req.get;
+		out_title = 'out: ' + req;
 		out_channel.push('@U9159L4KE');
 	}
 
@@ -136,5 +136,6 @@ Tasks:
 
 - JIra Issue-Related Events FQL Filter:
 	=> (summary ~ currentUser() OR description ~ currentUser() OR comment ~ currentUser())
+
 
 */
