@@ -65,8 +65,10 @@ app.post('/', function(req, res){
 				// out_title = out_title + " *** " + out_channel.join(', ');		// for testing
 				break;
 		}
-	} else {
-		out_title = 'in_header_user_agent: ' + in_header_user_agent;
+	}
+
+	if (in_header_user_agent.indexOf("atlassian") > -1) {
+		out_title = 'out: ' + req.get;
 		out_channel.push('@U9159L4KE');
 	}
 
