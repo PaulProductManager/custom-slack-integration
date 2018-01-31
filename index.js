@@ -75,7 +75,7 @@ app.post('/', function(req, res){
 			case 'comment_created':
 			case 'comment_updated':
 				out_title = '*' + 'Suchandsuch' + '* mentioned you in Jira #<' + 'link_here' + '|1234>';
-				out_title = out_title + ' **** ' + req.body;
+				out_title = out_title + ' **** ' + req.body['user']['displayName'] + ' **** ' + req.body['user']['emailAddress'];
 				break;
 		}
 		out_channel.push('@U9159L4KE');
