@@ -68,32 +68,15 @@ app.post('/', function(req, res){
 	}
 
 	if (in_header_user_agent.indexOf("atlassian") > -1) {
-		// var flattenObject = function(req) {
-		// 	var toReturn = {};
-
-		// 	for (var i in ob) {
-		// 		if (!ob.hasOwnProperty(i)) continue;
-
-		// 		if ((typeof ob[i]) == 'object' && ob[i] !== null) {
-		// 			var flatObject = flattenObject(ob[i]);
-		// 			for (var x in flatObject) {
-		// 				if (!flatObject.hasOwnProperty(x)) continue;
-
-		// 				toReturn[i + '.' + x] = flatObject[x];
-		// 			}
-		// 		} else {
-		// 			toReturn[i] = ob[i];
-		// 		}
-		// 	}
-		// 	return toReturn;
-		// };
-		// if (req.body['webhookEvent']) {
 			// out_title = out_title + 'event type: ' + req.body['webhookEvent'] + ' // ';  //works
-			out_title = out_title + 'event type: ' + req.get['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
-		// switch (req.body['webhookEvent']) {
-		// 	case 'push':
-		// }
-		// }
+		switch (req.body['webhookEvent']) {
+			case 'jira:issue_created':
+			case 'jira:issue_updated':
+			case 'comment_created':
+			case 'comment_updated':
+				out_title = '*' + 'Suchandsuch' + '* mentioned you in Jira #<' + 'link_here' + '|1234>';
+				break;
+		}
 		out_channel.push('@U9159L4KE');
 	}
 
