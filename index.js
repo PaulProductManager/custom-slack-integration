@@ -74,8 +74,8 @@ app.post('/', function(req, res){
 			case 'jira:issue_updated':
 			case 'comment_created':
 			case 'comment_updated':
-				out_title = '*' + 'Suchandsuch' + '* mentioned you in Jira #<' + 'link_here' + '|1234>';
-				out_title = out_title + ' **** ' + req.body['user']['displayName'] + ' **** ' + req.body['user']['emailAddress'];
+				out_title = '*' + req.body['user']['displayName'] + '* mentioned you in Jira #<' + req.body['issue']['self'] + '|' + req.body['issue']['key'] + '>';
+				out_title = out_title + ' **** ' + req.body['user']['emailAddress'];
 				break;
 		}
 		out_channel.push('@U9159L4KE');
