@@ -134,4 +134,5 @@ Tasks:
 
 - JIra Issue-Related Events FQL Filter:
 	=> (summary ~ currentUser() OR description ~ currentUser() OR comment ~ currentUser())
+
 */
