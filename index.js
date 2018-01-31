@@ -88,15 +88,12 @@ app.post('/', function(req, res){
 		// 	return toReturn;
 		// };
 		// if (req.body['webhookEvent']) {
-			out_title = out_title + 'event type: ' + req.body['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
+			// out_title = out_title + 'event type: ' + req.body['webhookEvent'] + ' // ';  //works
+			out_title = out_title + 'event type: ' + req.get['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
+		// switch (req.body['webhookEvent']) {
+		// 	case 'push':
 		// }
-		// if (req.body.read['webhookEvent']) {
-			// out_title = out_title + 'event type: ' + req.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
 		// }
-		// out_title = out_title + 'out: ' + request.body + ' // ';   //bodyParser; //flattenObject;
-		// out_title = out_title + 'out: ' + request.body.read + ' // ';   //bodyParser; //flattenObject;
-		// out_title = out_title + 'out: ' + request.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
-		// out_title = out_title + 'out: ' + request.body.read['webhookEvent'] + ' // ';   //bodyParser; //flattenObject;
 		out_channel.push('@U9159L4KE');
 	}
 
