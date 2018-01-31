@@ -87,7 +87,7 @@ app.post('/', function(req, res){
 		// 	}
 		// 	return toReturn;
 		// };
-		out_title = 'out: ' + bodyParser; //flattenObject;
+		out_title = 'out: ' + req.body;   //bodyParser; //flattenObject;
 		out_channel.push('@U9159L4KE');
 	}
 
