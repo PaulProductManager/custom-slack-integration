@@ -76,7 +76,7 @@ app.post('/', function(req, res){
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
         out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
         out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
-        out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment'].length;
+        out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
         // out_title = out_title + ' ; body: ' + req.body['issue']['fields']['comment'].['comments']['body'];
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
