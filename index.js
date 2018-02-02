@@ -77,7 +77,7 @@ app.post('/', function(req, res){
         out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
         out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
         out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
-        // out_title = out_title + ' ; body: ' + req.body['issue']['fields']['comment'].['comments']['body'];
+        out_title = out_title + ' ; body: ' + req.body['issue']['fields']['comment'].['comments'][1]['body'];
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
         break;
