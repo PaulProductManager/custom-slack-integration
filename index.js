@@ -78,7 +78,8 @@ app.post('/', function(req, res){
         out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
         out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
         for (i = 0; i < req.body['issue']['fields']['comment']['comments'].length; i++) {
-	        out_title = out_title + ' ; body(' + i + '): ' + req.body['issue']['fields']['comment'].['comments'][i];
+	        out_title = out_title + ' ; body(' + i + '): ';
+	        // out_title = out_title + ' ; body(' + i + '): ' + req.body['issue']['fields']['comment'].['comments'][i];
 	        // out_title = out_title + ' ; body: ' + req.body['issue']['fields']['comment'].['comments']['body'];
         }
         // email                req.body['user']['emailAddress'];
