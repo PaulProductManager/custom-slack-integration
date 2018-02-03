@@ -89,6 +89,7 @@ app.post('/', function(req, res){
         if (!out_aTemp) {
         	out_title = out_title + ' *** ' + out_aTemp.join();
         }
+        out_aTemp = uniq(out_aTemp);
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
         break;
@@ -136,6 +137,11 @@ app.listen(port, function() {
     console.log('running on http://localhost:' + port);
 });
 
+function uniq(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
+}
 
 /*
 Tasks:
