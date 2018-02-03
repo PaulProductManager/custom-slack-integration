@@ -74,10 +74,10 @@ app.post('/', function(req, res){
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
       case 'jira:issue_updated':
-        out_title = '*' + req.body['user']['displayName'] + '* mentioned you description on Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
+        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in description for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
       case 'comment_created':
       case 'comment_updated':
-        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '> (comment)';
+        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
         // out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
         // out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
         // out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
