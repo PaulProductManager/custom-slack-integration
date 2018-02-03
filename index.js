@@ -86,10 +86,10 @@ app.post('/', function(req, res){
         // }
 	      out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
         out_aTemp = out_temp.match(jira_mention_regex);
-        if (!out_aTemp) {
+        if (out_aTemp) {		// if not empty array, perform more transforms
         	out_title = out_title + ' *** ' + out_aTemp.join();
+        	out_aTemp = uniq(out_aTemp);
         }
-        out_aTemp = uniq(out_aTemp);
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
         break;
