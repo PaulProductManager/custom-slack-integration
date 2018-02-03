@@ -84,7 +84,7 @@ app.post('/', function(req, res){
         for (i = 0; i < req.body['issue']['fields']['comment']['comments'].length; i++) {
 	        out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][i]['body'];
         }
-        out_aTemp = out_title.match(jira_mention_regex);
+        out_aTemp = out_temp.match(jira_mention_regex);
         out_title = out_title + ' *** ' + out_aTemp.join();
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
