@@ -81,9 +81,10 @@ app.post('/', function(req, res){
         // out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
         // out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
         // out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
-        for (i = 0; i < req.body['issue']['fields']['comment']['comments'].length; i++) {
-	        out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][i]['body'];
-        }
+        // for (i = 0; i < req.body['issue']['fields']['comment']['comments'].length; i++) {
+	       //  out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][i]['body'];
+        // }
+	      out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
         out_aTemp = out_temp.match(jira_mention_regex);
         out_title = out_title + ' *** ' + out_aTemp.join();
         // email                req.body['user']['emailAddress'];
