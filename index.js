@@ -27,6 +27,9 @@ let out_title = 'There was a minor error',
   out_button_url = 'error',
   out_button_fallback = 'error';
 let out_error = [];
+let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
+let out_temp = '';
+let out_aTemp = [];
 
 app.use(bodyParser.json());
 
@@ -71,17 +74,18 @@ app.post('/', function(req, res){
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
       case 'jira:issue_updated':
+        out_title = '*' + req.body['user']['displayName'] + '* mentioned you description on Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
       case 'comment_created':
       case 'comment_updated':
-        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
-        out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
-        out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
-        out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
+        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '> (comment)';
+        // out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
+        // out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
+        // out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
         for (i = 0; i < req.body['issue']['fields']['comment']['comments'].length; i++) {
-	        // out_title = out_title + ' ; body(' + i + '): ';
-	        out_title = out_title + ' ; body(' + i + '): ' + req.body['issue']['fields']['comment']['comments'][i]['body'];
-	        // out_title = out_title + ' ; body: ' + req.body['issue']['fields']['comment'].['comments']['body'];
+	        out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][i]['body'];
         }
+        out_aTemp = out_title.match(jira_mention_regex);
+        out_title = out_title + ' *** ' + out_aTemp.join();
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
         break;
