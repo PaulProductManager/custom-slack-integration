@@ -77,7 +77,7 @@ app.post('/', function(req, res){
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in description for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
       case 'comment_created':
       case 'comment_updated':
-        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
+        out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '?focusedCommentId=' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '#comment-' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '|' + req.body['issue']['key'] + '>';
         // out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
         // out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
         // out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
@@ -86,10 +86,14 @@ app.post('/', function(req, res){
         // }
 	      out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
         out_aTemp = out_temp.match(jira_mention_regex);
-        out_title = out_title + ' *** ' + out_aTemp.join();
+        if (!out_aTemp) {
+        	out_title = out_title + ' *** ' + out_aTemp.join();
+        }
         // email                req.body['user']['emailAddress'];
         // api raw data         req.body['issue']['self']
         break;
+
+        // https://pbxxrepo.atlassian.net/browse/PCNA-29?focusedCommentId=10010&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-10010
     }
 
     out_channel.push('@U9159L4KE');
