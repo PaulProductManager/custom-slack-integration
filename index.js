@@ -30,6 +30,7 @@ let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
 let out_temp = '';
 let out_aTemp = [];
+let out_aTempNotMe = [];
 
 app.use(bodyParser.json());
 
@@ -88,7 +89,8 @@ app.post('/', function(req, res){
         out_aTemp = out_temp.match(jira_mention_regex);
         if (out_aTemp) {		// if not empty array, perform more transforms
         	out_title = out_title + ' *** before: ' + out_aTemp.join();
-        	out_aTemp = uniq(out_aTemp);
+        	out_aTemp = uniq(out_aTemp);		// unique mentions only
+        	out_aTemp = out_aTemp.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'}) 	// remove sender from list
         	out_title = out_title + ' *** after: ' + out_aTemp.join();
         }
         // email                req.body['user']['emailAddress'];
