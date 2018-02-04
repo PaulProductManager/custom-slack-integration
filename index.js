@@ -7,14 +7,14 @@ const USER_MAP = [
   {
     'email': 'paul.promoboxx@gmail.com',
     'slack': '@U8KG8HQJ2',
-    'jira': 'XXXXXXXXXX',
+    'jira': 'paul.promoboxx',
     'github': 'PaulProductManager'
   },
   {
     'email': 'john.promoboxx@gmail.com',
     'slack': '@U9159L4KE',
-    'jira': 'XXXXXXXXXX',
-    'github': 'hujambo-dunia'
+    'jira': 'admin',
+    'github': 'johnproductmanager'
   }
 ];
 
@@ -79,12 +79,6 @@ app.post('/', function(req, res){
       case 'comment_created':
       case 'comment_updated':
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '?focusedCommentId=' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '#comment-' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '|' + req.body['issue']['key'] + '>';
-        // out_title = out_title + ' *** <' + req.body['issue']['self'] + '|raw>';
-        // out_title = out_title + ' ; description: ' + req.body['issue']['fields']['description'];
-        // out_title = out_title + ' ; length: ' + req.body['issue']['fields']['comment']['comments'].length;
-        // for (i = 0; i < req.body['issue']['fields']['comment']['comments'].length; i++) {
-	       //  out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][i]['body'];
-        // }
 	      out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
         out_aTemp = out_temp.match(jira_mention_regex);
         if (out_aTemp) {		// if not empty array, perform more transforms
@@ -93,15 +87,14 @@ app.post('/', function(req, res){
         	out_aTemp = out_aTemp.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'}) 	// remove sender from list
         	out_title = out_title + ' *** after: ' + out_aTemp.join();
         }
-        // email                req.body['user']['emailAddress'];
-        // api raw data         req.body['issue']['self']
         break;
-
-        // https://pbxxrepo.atlassian.net/browse/PCNA-29?focusedCommentId=10010&page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel#comment-10010
     }
 
     out_channel.push('@U9159L4KE');
   }
+
+  // Filter for Beta Users only
+  // out_channel
 
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
