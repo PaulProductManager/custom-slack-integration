@@ -63,19 +63,19 @@ app.post('/', function(req, res){
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-        // Try 1 - Channel-specific solve: get slack-channel users
+        // Get slack-channel users
         out_channel = convertToSlack(USER_MAP, req.body.pull_request.requested_reviewers, "github", true);
 
-        for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-          get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-          if (get_subset.length === 1) {
-            out_channel.push(get_subset[0].slack);
-          } else if (get_subset.length === 0) {
-            out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-          } else {
-            out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-          }
-        }
+        // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+        //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+        //   if (get_subset.length === 1) {
+        //     out_channel.push(get_subset[0].slack);
+        //   } else if (get_subset.length === 0) {
+        //     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+        //   } else {
+        //     out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+        //   }
+        // }
 
         // TESTING ONLY
         break;
