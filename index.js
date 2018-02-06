@@ -24,7 +24,8 @@ const USER_MAP = [
   }
 ];
 
-let get_subset = [];
+let use_subset,
+		get_subset = [];
 let in_header_user_agent = '',
 		in_sender_slack;
 let out_title = 'There was a minor error',
@@ -47,20 +48,24 @@ app.post('/', function(req, res){
   in_header_user_agent = req.get('User-Agent').toLowerCase();
 
   // Create content, depending on incoming source: GitHub, Jira
+
   if (in_header_user_agent.indexOf("github") > -1) {
     switch (req.get('X-GitHub-Event')) {
       case 'push':
       case 'fork':
-      case 'watch':  // star
+      case 'watch':  // same as Github "star" feature
+        // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
         break;
       case 'pull_request_review_comment':
       case 'pull_request_review':
       case 'pull_request':
-        // create msg
+        // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-        // get slack-channel users
+        // Try 1 - Channel-specific solve: get slack-channel users
+        out_channel = convertToSlack(USER_MAP, req.body.pull_request.requested_reviewers, "github", true);
+
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
           get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
           if (get_subset.length === 1) {
@@ -68,10 +73,11 @@ app.post('/', function(req, res){
           } else if (get_subset.length === 0) {
             out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
           } else {
-            out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+            out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
           }
         }
-        // out_title = out_title + " *** " + out_channel.join(', ');    // for testing
+
+        // TESTING ONLY
         break;
     }
   }
@@ -80,9 +86,11 @@ app.post('/', function(req, res){
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
       case 'jira:issue_updated':
+        // Create msg
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in description for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '|' + req.body['issue']['key'] + '>';
       case 'comment_created':
       case 'comment_updated':
+        // Create msg
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '?focusedCommentId=' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '#comment-' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '|' + req.body['issue']['key'] + '>';
 
       	// Only look for Jira Mentions in the most recent comment
@@ -100,22 +108,32 @@ app.post('/', function(req, res){
         	out_title = out_title + ' *** after: ' + out_channel.join();
         }
         break;
+
+        // Convert Jira-to-Slack
+
     }
 
     // TESTING ONLY
-    out_channel = [];
-    out_channel.push('@U9159L4KE');
+    // out_channel = [];
+    // out_channel.push('@U9159L4KE');
   }
 
   // BETA-VERSION ONLY: Remove Slack channels that are not Beta Users
   if (out_channel) {
-	  out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'});
+  	use_subset = null;
+  	get_subset = [];
+    // out_channel = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+    for (var c = 0; c < out_channel.length; c++) {
+	    use_subset = USER_MAP.filter(function(e) {return e.slack == out_channel[c];});
+	    get_subset.push(use_subset);
+	  }
   }
 
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
-      'channel': out_channel[s],
+      // 'channel': out_channel[s],
+      'channel': '@U9159L4KE',
       'text': out_title
       // 'attachments': [
       //  {
@@ -153,6 +171,24 @@ function uniq(a) {
     return a.sort().filter(function(item, pos, ary) {
         return !pos || item != ary[pos - 1];
     })
+}
+
+function convertToSlack(in_map, in_obj, in_type, is_beta) {
+	let out_arr = [],
+			get_subset = [];
+
+  for (var s = 0; s < in_obj.length; s++) {
+    // get_subset = USER_MAP.filter(function(e) {return e.github == in_obj[s].login;});
+    get_subset = USER_MAP.filter(function(e) {return e[in_type] == in_obj[s].login;});
+    if (get_subset.length === 1) {
+      out_arr.push(get_subset[0].slack);
+    } else if (get_subset.length === 0) {
+      // out_error.push('User not found with Github ID: ' + in_obj[s].login);
+    } else {
+      // out_error.push('Multiple users found with Github ID: ' + in_obj[s].login);
+    }
+  }
+  return out_arr;
 }
 
 /*
