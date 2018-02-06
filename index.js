@@ -106,6 +106,9 @@ app.post('/', function(req, res){
         	// Remove sender from list
         	out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'})
         	out_title = out_title + ' *** after: ' + out_channel.join();
+
+        	// Get slack-channel users
+	        out_channel = convertToSlack(USER_MAP, out_channel, "jira", true);
         }
         break;
 
