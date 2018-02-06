@@ -81,7 +81,6 @@ app.post('/', function(req, res){
         //   }
         // }
 
-
         // TESTING ONLY
         break;
     }
@@ -128,21 +127,21 @@ app.post('/', function(req, res){
   }
 
   // BETA-VERSION ONLY: Remove Slack channels that are not Beta Users
-  if (out_channel) {
-  	use_subset = null;
-  	get_subset = [];
-    // out_channel = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-    for (var c = 0; c < out_channel.length; c++) {
-	    use_subset = USER_MAP.filter(function(e) {return e.slack == out_channel[c];});
-	    get_subset.push(use_subset);
-	  }
-  }
+  // if (out_channel) {
+  // 	use_subset = null;
+  // 	get_subset = [];
+  //   // out_channel = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+  //   for (var c = 0; c < out_channel.length; c++) {
+	 //    use_subset = USER_MAP.filter(function(e) {return e.slack == out_channel[c];});
+	 //    get_subset.push(use_subset);
+	 //  }
+  // }
 
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
-      // 'channel': out_channel[s],
-      'channel': '@U9159L4KE',
+      'channel': out_channel[s],				// testing Github
+      // 'channel': '@U9159L4KE',		// testing Jira
       'text': out_title
       // 'attachments': [
       //  {
