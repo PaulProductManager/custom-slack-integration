@@ -7,13 +7,13 @@ const USER_MAP = [
   {
     'email': 'paul.promoboxx@gmail.com',
     'slack': '@U8KG8HQJ2',
-    'jira': 'XXXXXXXXXX',
+    'jira': '[~admin]',
     'github': 'PaulProductManager'
   },
   {
     'email': 'john.promoboxx@gmail.com',
     'slack': '@U9159L4KE',
-    'jira': 'XXXXXXXXXX',
+    'jira': '[~john.promoboxx]',
     'github': 'hujambo-dunia'
   },
   {
@@ -36,8 +36,6 @@ let out_title = 'There was a minor error',
 	  out_button_fallback = 'error';
 let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
-let out_aTemp = [];
-let out_aTempNotMe = [];
 
 app.use(bodyParser.json());
 
@@ -86,24 +84,33 @@ app.post('/', function(req, res){
       case 'comment_created':
       case 'comment_updated':
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '?focusedCommentId=' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '#comment-' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '|' + req.body['issue']['key'] + '>';
-	      out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
+
+      	// Only look for Jira Mentions in the most recent comment
+	      out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
         out_channel = out_channel_blob.match(jira_mention_regex);
-        if (out_aTemp) {		// if not empty array, perform more transforms
+        if (out_channel) {		// if not empty array, perform more transforms
+        	// TESTING ONLY
         	out_title = out_title + ' *** before: ' + out_channel.join();
-        	out_channel = uniq(out_channel);		// unique mentions only
-        	out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'}) 	// remove sender from list
+
+        	// Unique mentions only
+        	out_channel = uniq(out_channel);
+
+        	// Remove sender from list
+        	out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'})
         	out_title = out_title + ' *** after: ' + out_channel.join();
         }
         break;
     }
 
-    // For testing only
+    // TESTING ONLY
     out_channel = [];
     out_channel.push('@U9159L4KE');
   }
 
-  // Filter for Beta Users only
-  // out_channel
+  // BETA-VERSION ONLY: Remove Slack channels that are not Beta Users
+  if (out_channel) {
+	  out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'});
+  }
 
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
@@ -153,7 +160,7 @@ Tasks:
 
 - completed Jira Integration
 	- completed Comment created/updated path
-		- made variable names friendlier
+		+ made variable names friendlier
 		- created final out_channel array
 		- removed comments / code cleanup
 	- completed Issue created/update path
