@@ -64,7 +64,7 @@ app.post('/', function(req, res){
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
         // Get slack-channel users
-        out_channel = convertToSlack(USER_MAP, req.body.pull_request.requested_reviewers, "github", true);
+        out_channel = convertToSlack(USER_MAP, "github", req.body.pull_request.requested_reviewers, true);
 
         // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
         //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
@@ -108,7 +108,7 @@ app.post('/', function(req, res){
         	out_title = out_title + ' *** after: ' + out_channel.join();
 
         	// Get slack-channel users
-	        out_channel = convertToSlack(USER_MAP, out_channel, "jira", true);
+	        out_channel = convertToSlack(USER_MAP, "jira", out_channel, true);
         }
         break;
 
@@ -176,7 +176,7 @@ function uniq(a) {
     })
 }
 
-function convertToSlack(in_map, in_obj, in_type, is_beta) {
+function convertToSlack(in_map, in_type, in_obj, is_beta) {
 	let out_arr = [],
 			get_subset = [];
 
