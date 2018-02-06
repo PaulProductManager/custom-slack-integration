@@ -7,25 +7,32 @@ const USER_MAP = [
   {
     'email': 'paul.promoboxx@gmail.com',
     'slack': '@U8KG8HQJ2',
-    'jira': 'paul.promoboxx',
+    'jira': 'XXXXXXXXXX',
     'github': 'PaulProductManager'
   },
   {
     'email': 'john.promoboxx@gmail.com',
     'slack': '@U9159L4KE',
-    'jira': 'admin',
-    'github': 'johnproductmanager'
+    'jira': 'XXXXXXXXXX',
+    'github': 'hujambo-dunia'
+  },
+  {
+    'email': 'michelle@promoboxx.com',
+    'slack': '@U7JQUB6JX',
+    'jira': '[~michelle]',
+    'github': 'hujambo-dunia'
   }
 ];
 
 let get_subset = [];
-let in_header_user_agent = '';
+let in_header_user_agent = '',
+		in_sender_slack;
 let out_title = 'There was a minor error',
-  out_channel = [],
-  out_msg = 'error',
-  out_button_msg = 'button',
-  out_button_url = 'error',
-  out_button_fallback = 'error';
+	  out_channel = [],
+	  out_msg = 'error',
+	  out_button_msg = 'button',
+	  out_button_url = 'error',
+	  out_button_fallback = 'error';
 let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
 let out_temp = '';
@@ -142,29 +149,30 @@ function uniq(a) {
 /*
 Tasks:
 
-- Completed Github integration
-  - Completed PR format
-    + Captured correct PR 'author' variable in the out_title
-    + Captured correct PR variables into the out_title
-    - Captured correct PR variable into the out_channel(s) / reviewer(s)
-        + Captured Github-Username variaable
-        - Matched with outgoing Slack-Channel-Name variable
-  - Completed PR-comment format
-    - Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
-  - Completed PR-approval/reject format
-    - Captured when an "approval/reject" occurs
-      - If rejected, shows up as "red"
-    - Captured correct PR variable(s) into the out_channel(s) / reviewer(s)
-
-
-- Escape all single-apostrophe's in the "out_" variables
-
-- Create user-friendly UI where anyone can "link" up new users with their Slack-Channel-ID and Jira-ID (and Github-ID)
-  - see: https://api.slack.com/methods/channels.list
-
-
-- JIra Issue-Related Events FQL Filter:
-  => (summary ~ currentUser() OR description ~ currentUser() OR comment ~ currentUser())
-
+- completed Jira Integration
+	- completed Issue created/update path
+		- created final out_channel array
+	- completed Comment created/updated path
+		- made variable names friendlier
+		- created final out_channel array
+		- removed comments / code cleanup
+- completed Github Integration
+	- added pull_request_review::approved pathway
+		- added "green" color
+		- added out_channel array
+		- added out_title
+	- added pull_request_review::change_requested pathway
+		- added "yellow" color
+		- added out_channel array
+		- added out_title
+	- added pull_request_review::rejected pathway
+		- added "red" color
+		- added out_channel array
+		- added out_title
+		- added out_channel array
+		- added out_title
+- created Universal function to remove in_sender_slack channel from the out_channel before being sent to Slack
+- created Universal function to filter Beta Users Only before moving to send-message portion
+- created Universal single-apostrophe escape function in the "out_" variables
 
 */
