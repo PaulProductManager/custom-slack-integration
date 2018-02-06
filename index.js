@@ -28,7 +28,7 @@ let get_subset = [];
 let in_header_user_agent = '',
 		in_sender_slack;
 let out_title = 'There was a minor error',
-		out_channel_blob = '',
+		out_channel_blob,
 	  out_channel = [],
 	  out_msg = 'error',
 	  out_button_msg = 'button',
@@ -36,7 +36,6 @@ let out_title = 'There was a minor error',
 	  out_button_fallback = 'error';
 let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
-let out_temp = '';
 let out_aTemp = [];
 let out_aTempNotMe = [];
 
@@ -87,8 +86,8 @@ app.post('/', function(req, res){
       case 'comment_created':
       case 'comment_updated':
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '?focusedCommentId=' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '#comment-' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '|' + req.body['issue']['key'] + '>';
-	      out_temp = out_temp + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
-        out_aTemp = out_temp.match(jira_mention_regex);
+	      out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
+        out_aTemp = out_channel_blob.match(jira_mention_regex);
         if (out_aTemp) {		// if not empty array, perform more transforms
         	out_title = out_title + ' *** before: ' + out_aTemp.join();
         	out_aTemp = uniq(out_aTemp);		// unique mentions only
