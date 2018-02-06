@@ -87,16 +87,18 @@ app.post('/', function(req, res){
       case 'comment_updated':
         out_title = '*' + req.body['user']['displayName'] + '* mentioned you in comment for Jira #<' + req.body['issue']['fields']['status']['iconUrl'] + 'browse/' + req.body['issue']['key'] + '?focusedCommentId=' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '#comment-' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['id'] + '|' + req.body['issue']['key'] + '>';
 	      out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];	// only look in the most recent comment
-        out_aTemp = out_channel_blob.match(jira_mention_regex);
+        out_channel = out_channel_blob.match(jira_mention_regex);
         if (out_aTemp) {		// if not empty array, perform more transforms
-        	out_title = out_title + ' *** before: ' + out_aTemp.join();
-        	out_aTemp = uniq(out_aTemp);		// unique mentions only
-        	out_aTemp = out_aTemp.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'}) 	// remove sender from list
-        	out_title = out_title + ' *** after: ' + out_aTemp.join();
+        	out_title = out_title + ' *** before: ' + out_channel.join();
+        	out_channel = uniq(out_channel);		// unique mentions only
+        	out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'}) 	// remove sender from list
+        	out_title = out_title + ' *** after: ' + out_channel.join();
         }
         break;
     }
 
+    // For testing only
+    out_channel = [];
     out_channel.push('@U9159L4KE');
   }
 
