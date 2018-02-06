@@ -63,6 +63,10 @@ app.post('/', function(req, res){
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
+        for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+          out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+        }
+
         // Get slack-channel users
         out_channel = convertToSlack(USER_MAP, "github", req.body.pull_request.requested_reviewers, true);
 
@@ -182,9 +186,6 @@ function convertToSlack(in_map, in_type, in_obj, is_beta) {
 			get_subset = [];
 
   for (var s = 0; s < in_obj.length; s++) {
-    // get_subset = USER_MAP.filter(function(e) {return e.github == in_obj[s].login;});		// original code
-    // get_subset = USER_MAP.filter(function(e) {return e[in_type] == in_obj[s].login;});
-    // get_subset = in_map.filter(function(e) {return e.jira == in_obj[s];});		// LOGIN NEEDS TO BE CHANGED
     get_subset = in_map.filter(function(e) {return e[in_type] == in_obj[s];});		// LOGIN NEEDS TO BE CHANGED
     if (get_subset.length === 1) {
       out_arr.push(get_subset[0].slack);
