@@ -181,9 +181,9 @@ function convertToSlack(in_map, in_obj, in_type, is_beta) {
 			get_subset = [];
 
   for (var s = 0; s < in_obj.length; s++) {
-    // get_subset = USER_MAP.filter(function(e) {return e.github == in_obj[s].login;});
+    // get_subset = USER_MAP.filter(function(e) {return e.github == in_obj[s].login;});		// original code
     // get_subset = USER_MAP.filter(function(e) {return e[in_type] == in_obj[s].login;});
-    get_subset = USER_MAP.filter(function(e) {return e.github == in_obj[s].login;});
+    get_subset = in_map.filter(function(e) {return e.github == in_obj[s].login;});
     if (get_subset.length === 1) {
       out_arr.push(get_subset[0].slack);
     } else if (get_subset.length === 0) {
