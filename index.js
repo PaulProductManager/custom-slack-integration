@@ -104,7 +104,7 @@ app.post('/', function(req, res){
         	out_channel = uniq(out_channel);
 
         	// Remove sender from list
-        	out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'})
+        	out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'});
         	out_title = out_title + ' *** after: ' + out_channel.join();
 
         	// Get slack-channel users
@@ -183,7 +183,7 @@ function convertToSlack(in_map, in_obj, in_type, is_beta) {
   for (var s = 0; s < in_obj.length; s++) {
     // get_subset = USER_MAP.filter(function(e) {return e.github == in_obj[s].login;});		// original code
     // get_subset = USER_MAP.filter(function(e) {return e[in_type] == in_obj[s].login;});
-    get_subset = in_map.filter(function(e) {return e.github == in_obj[s].login;});
+    get_subset = in_map.filter(function(e) {return e.jira == in_obj[s];});		// LOGIN NEEDS TO BE CHANGED
     if (get_subset.length === 1) {
       out_arr.push(get_subset[0].slack);
     } else if (get_subset.length === 0) {
@@ -192,6 +192,20 @@ function convertToSlack(in_map, in_obj, in_type, is_beta) {
       // out_error.push('Multiple users found with Github ID: ' + in_obj[s].login);
     }
   }
+
+
+	// for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+	//   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+	//   if (get_subset.length === 1) {
+	//     out_channel.push(get_subset[0].slack);
+	//   } else if (get_subset.length === 0) {
+	//     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+	//   } else {
+	//     out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+	//   }
+	// }
+
+
   return out_arr;
 }
 
