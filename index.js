@@ -67,6 +67,7 @@ app.post('/', function(req, res){
           out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
         }
 
+        // TESTING ONLY
         out_title = out_title + ' *** ' + out_channel.join(', ');
 
         // Get slack-channel users
@@ -85,7 +86,7 @@ app.post('/', function(req, res){
         // }
 
 
-        // TESTING ONLY
+
         break;
     }
   }
@@ -144,8 +145,8 @@ app.post('/', function(req, res){
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
-      'channel': out_channel[s],				// testing Github
-      // 'channel': '@U9159L4KE',		// testing Jira
+      // 'channel': out_channel[s],				// testing Github
+      'channel': '@U9159L4KE',		// testing Jira
       'text': out_title
       // 'attachments': [
       //  {
