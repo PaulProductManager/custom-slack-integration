@@ -63,6 +63,8 @@ app.post('/', function(req, res){
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
+        out_title = out_title + ' *** ' + out_channel.join(', ');
+
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
           out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
         }
