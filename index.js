@@ -119,7 +119,6 @@ app.post('/', function(req, res){
         break;
 
         // Convert Jira-to-Slack
-
     }
 
 
