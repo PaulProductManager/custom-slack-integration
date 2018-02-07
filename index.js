@@ -72,6 +72,7 @@ app.post('/', function(req, res){
         // Get slack-channel users
         // out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
 
+
         // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
         //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
         //   if (get_subset.length === 1) {
