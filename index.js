@@ -61,7 +61,11 @@ app.post('/', function(req, res){
       case 'pull_request_review':
       case 'pull_request':
         // Create msg
-        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+        // out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+
+				// TESTING ONLY
+        out_title = 'Testing';
+        out_channel = out_channel.push('@U9159L4KE');
 
         // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
         //   out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
