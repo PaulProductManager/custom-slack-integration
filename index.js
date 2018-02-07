@@ -63,14 +63,14 @@ app.post('/', function(req, res){
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-        out_title = out_title + ' *** ' + out_channel.join(', ');
-
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
           out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
         }
 
+        out_title = out_title + ' *** ' + out_channel.join(', ');
+
         // Get slack-channel users
-        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+        // out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
 
         // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
         //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
