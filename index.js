@@ -20,7 +20,7 @@ const USER_MAP = [
     'email': 'michelle@promoboxx.com',
     'slack': '@U7JQUB6JX',
     'jira': '[~michelle]',
-    'github': 'hujambo-dunia'
+    'github': 'xxxxxxxxx'
   }
 ];
 
