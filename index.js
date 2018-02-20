@@ -68,18 +68,6 @@ app.post('/', function(req, res){
           out_channel.push(req.body.pull_request.requested_reviewers[r].login);
         }
 
-        // // get slack-channel users
-        // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-        //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-        //   if (get_subset.length === 1) {
-        //     out_channel.push(get_subset[0].slack);
-        //   } else if (get_subset.length === 0) {
-        //     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-        //   } else {
-        //     out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-        //   }
-        // }
-
         // Unique mentions only
         out_channel = uniq(out_channel);
 
@@ -92,6 +80,7 @@ app.post('/', function(req, res){
         break;
     }
   }
+
 
 
   if (in_header_user_agent.indexOf("atlassian") > -1) {
@@ -147,7 +136,7 @@ app.post('/', function(req, res){
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
-      'channel': '@U9159L4KE',
+      'channel': out_channel[s],
       'text': out_title
       // 'channel': out_channel[s],
       // 'attachments': [
