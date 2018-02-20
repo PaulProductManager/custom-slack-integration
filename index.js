@@ -74,7 +74,7 @@ app.post('/', function(req, res){
             out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
           }
         }
-        // out_title = out_title + " *** " + out_channel.join(', ');    // for testing
+        out_title = out_title + " *** " + out_channel.join(', ');    // for testing
         break;
     }
   }
