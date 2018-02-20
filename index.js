@@ -24,7 +24,6 @@ const USER_MAP = [
   }
 ];
 
-
 let use_subset,
 		get_subset = [];
 let in_header_user_agent = '',
