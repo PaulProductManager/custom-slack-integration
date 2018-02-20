@@ -24,6 +24,7 @@ const USER_MAP = [
   }
 ];
 
+
 let use_subset,
 		get_subset = [];
 let in_header_user_agent = '',
@@ -65,6 +66,7 @@ app.post('/', function(req, res){
 
 				// TESTING ONLY
         out_title = 'Testing';
+        out_channel = [];
         out_channel = out_channel.push('@U9159L4KE');
 
         // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
