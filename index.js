@@ -80,6 +80,13 @@ app.post('/', function(req, res){
         //   }
         // }
 
+        // Unique mentions only
+        out_channel = uniq(out_channel);
+
+        // Remove sender from list
+        out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'});
+        out_title = out_title + ' *** after: ' + out_channel.join();
+
         // Get slack-channel users
         out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
 
@@ -108,10 +115,6 @@ app.post('/', function(req, res){
 
           // Unique mentions only
           out_channel = uniq(out_channel);
-
-          // Remove sender from list
-          out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'});
-          out_title = out_title + ' *** after: ' + out_channel.join();
 
           // Get slack-channel users
           out_channel = convertToSlack(USER_MAP, "jira", out_channel, true);
@@ -184,6 +187,9 @@ function uniq(a) {
 }
 
 function convertToSlack(in_map, in_type, in_obj, is_beta) {
+	/* where...
+							is_beta			=		will remove non-Beta Users from list
+	*/
   let out_arr = [],
       get_subset = [];
 
