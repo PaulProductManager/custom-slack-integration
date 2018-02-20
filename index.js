@@ -60,20 +60,29 @@ app.post('/', function(req, res){
       case 'pull_request_review_comment':
       case 'pull_request_review':
       case 'pull_request':
-        // create msg
+        // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-        // get slack-channel users
+        // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-          get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-          if (get_subset.length === 1) {
-            out_channel.push(get_subset[0].slack);
-          } else if (get_subset.length === 0) {
-            out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-          } else {
-            out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-          }
+          out_channel.push(req.body.pull_request.requested_reviewers[r].login);
         }
+
+        // // get slack-channel users
+        // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+        //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+        //   if (get_subset.length === 1) {
+        //     out_channel.push(get_subset[0].slack);
+        //   } else if (get_subset.length === 0) {
+        //     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+        //   } else {
+        //     out_error.push('Multiple users founds with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+        //   }
+        // }
+
+        // Get slack-channel users
+        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+
         out_title = out_title + " *** " + out_channel.join(', ');    // for testing
         break;
     }
@@ -112,6 +121,7 @@ app.post('/', function(req, res){
 
         // Convert Jira-to-Slack
     }
+
 
 
     // TESTING ONLY
