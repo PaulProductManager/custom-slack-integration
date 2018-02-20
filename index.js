@@ -71,49 +71,49 @@ app.post('/', function(req, res){
 
 
 
-    if (1==2) { // testing
-    // switch (req.get('X-GitHub-Event')) {
-    //   case 'push':
-    //   case 'fork':
-    //   case 'watch':  // same as Github "star" feature
-    //     // Create msg
-    //     out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
-    //     break;
-    //   case 'pull_request_review_comment':
-    //   case 'pull_request_review':
-    //   case 'pull_request':
-    //     // Create msg
-    //     // out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+    // if (1==2) { // testing
+    // // switch (req.get('X-GitHub-Event')) {
+    // //   case 'push':
+    // //   case 'fork':
+    // //   case 'watch':  // same as Github "star" feature
+    // //     // Create msg
+    // //     out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+    // //     break;
+    // //   case 'pull_request_review_comment':
+    // //   case 'pull_request_review':
+    // //   case 'pull_request':
+    // //     // Create msg
+    // //     // out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-				// // TESTING ONLY
-    //     out_title = 'Testing';
-    //     // out_channel = [];
-    //     // out_channel = out_channel.push('@U9159L4KE');
+				// // // TESTING ONLY
+    // //     out_title = 'Testing';
+    // //     // out_channel = [];
+    // //     // out_channel = out_channel.push('@U9159L4KE');
 
-    //     // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-    //     //   out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-    //     // }
+    // //     // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+    // //     //   out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+    // //     // }
 
-    //     // // TESTING ONLY
-    //     // out_title = out_title + ' *** ' + out_channel.join(', ');
+    // //     // // TESTING ONLY
+    // //     // out_title = out_title + ' *** ' + out_channel.join(', ');
 
-    //     // Get slack-channel users
-    //     // out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+    // //     // Get slack-channel users
+    // //     // out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
 
 
-    //     // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-    //     //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-    //     //   if (get_subset.length === 1) {
-    //     //     out_channel.push(get_subset[0].slack);
-    //     //   } else if (get_subset.length === 0) {
-    //     //     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-    //     //   } else {
-    //     //     out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-    //     //   }
-    //     // }
-    //     break;
-    // }
-    } // testing
+    // //     // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+    // //     //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
+    // //     //   if (get_subset.length === 1) {
+    // //     //     out_channel.push(get_subset[0].slack);
+    // //     //   } else if (get_subset.length === 0) {
+    // //     //     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+    // //     //   } else {
+    // //     //     out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
+    // //     //   }
+    // //     // }
+    // //     break;
+    // // }
+    // } // testing
 
 
 
