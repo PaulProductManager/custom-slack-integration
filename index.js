@@ -84,12 +84,11 @@ app.post('/', function(req, res){
         out_channel = uniq(out_channel);
 
         // Remove sender from list
-        // out_channel = out_channel.filter(function(a){return a !== '[~' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['author']['name'] + ']'});
+        out_channel = out_channel.filter(function(a){return a !== '[~' + req.body.sender.login + ']'});
 
         // Get slack-channel users
         out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
 
-        out_title = out_title + " *** " + out_channel.join(', ');    // for testing
         break;
     }
   }
