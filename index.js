@@ -68,7 +68,6 @@ app.post('/', function(req, res){
         out_title = 'Testing';
         out_channel = out_channel.push('@U9159L4KE');
 
-
     if (1==2) { // testing
     switch (req.get('X-GitHub-Event')) {
       case 'push':
@@ -110,7 +109,6 @@ app.post('/', function(req, res){
         //   }
         // }
       } // testing
-
 
         break;
     }
