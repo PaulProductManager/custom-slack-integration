@@ -14,13 +14,13 @@ const USER_MAP = [
     'email': 'john.promoboxx@gmail.com',
     'slack': '@U9159L4KE',
     'jira': '[~john.promoboxx]',
-    'github': 'hujambo-dunia'
+    'github': 'xxxxxxxxx'
   },
   {
     'email': 'michelle@promoboxx.com',
     'slack': '@U7JQUB6JX',
     'jira': '[~michelle]',
-    'github': 'xxxxxxxxx'
+    'github': 'hujambo-dunia'
   }
 ];
 
