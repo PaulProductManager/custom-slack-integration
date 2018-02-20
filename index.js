@@ -38,7 +38,7 @@ const USER_MAP = [
 //   }
 // ];
 
-
+,-
 let use_subset,
 		get_subset = [];
 let in_header_user_agent = '',
@@ -65,6 +65,9 @@ app.post('/', function(req, res){
   // Create content, depending on incoming source: GitHub, Jira
 
   if (in_header_user_agent.indexOf("github") > -1) {
+        out_title = 'Testing';
+
+    if (1==2) { // testing
     switch (req.get('X-GitHub-Event')) {
       case 'push':
       case 'fork':
@@ -80,8 +83,8 @@ app.post('/', function(req, res){
 
 				// TESTING ONLY
         out_title = 'Testing';
-        out_channel = [];
-        out_channel = out_channel.push('@U9159L4KE');
+        // out_channel = [];
+        // out_channel = out_channel.push('@U9159L4KE');
 
         // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
         //   out_channel = out_channel.push(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
@@ -104,6 +107,7 @@ app.post('/', function(req, res){
         //     out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
         //   }
         // }
+      } // testing
 
         break;
     }
