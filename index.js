@@ -31,6 +31,7 @@ let in_header_user_agent = '',
 let out_title = 'There was a minor error',
     out_channel_blob,
     out_channel = [],
+    out_color = '#ffffff',
     out_msg = 'error',
     out_button_msg = 'button',
     out_button_url = 'error',
@@ -62,6 +63,7 @@ app.post('/', function(req, res){
       case 'pull_request':
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+        out_color = '#FFFF00';
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
@@ -117,7 +119,6 @@ app.post('/', function(req, res){
 
 
 
-
     // TESTING ONLY
     // out_channel = [];
     // out_channel.push('@U9159L4KE');
@@ -138,14 +139,13 @@ app.post('/', function(req, res){
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
       'channel': out_channel[s],
-      'text': out_title
-      // 'channel': out_channel[s],
-      // 'attachments': [
-      //  {
+      'text': out_title,
+      'attachments': [
+       {
       //    'text': '',
       //    'fallback': 'You are unable to choose an action',
       //    'callback_id': 'wopr_game',
-      //    'color': '#ffffff',
+         'color': out_color
       //    'attachment_type': 'default',
       //    'actions': [
       //      {
@@ -156,8 +156,8 @@ app.post('/', function(req, res){
       //        'value': 'pull_request'
       //      }
       //    ]
-      //  }
-      // ]
+       }
+      ]
     });
   }
 
