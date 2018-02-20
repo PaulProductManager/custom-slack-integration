@@ -64,6 +64,7 @@ app.post('/', function(req, res){
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
         out_color = '#FFFF00';
+        out_title = out_title + ' *** ' + out_color;
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
@@ -146,8 +147,8 @@ app.post('/', function(req, res){
       //    'text': '',
       //    'fallback': 'You are unable to choose an action',
       //    'callback_id': 'wopr_game',
-         'color': out_color
-      //    'attachment_type': 'default',
+         'color': out_color,
+         'attachment_type': 'default'
       //    'actions': [
       //      {
       //        'name': 'github',
