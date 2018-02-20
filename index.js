@@ -80,8 +80,6 @@ app.post('/', function(req, res){
   }
 
 
-
-
   if (in_header_user_agent.indexOf("atlassian") > -1) {
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
