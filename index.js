@@ -14,15 +14,29 @@ const USER_MAP = [
     'email': 'john.promoboxx@gmail.com',
     'slack': '@U9159L4KE',
     'jira': '[~john.promoboxx]',
-    'github': 'xxxxxxxxx'
-  },
-  {
-    'email': 'michelle@promoboxx.com',
-    'slack': '@U7JQUB6JX',
-    'jira': '[~michelle]',
     'github': 'hujambo-dunia'
   }
 ];
+// const USER_MAP = [
+//   {
+//     'email': 'paul.promoboxx@gmail.com',
+//     'slack': '@U8KG8HQJ2',
+//     'jira': '[~admin]',
+//     'github': 'PaulProductManager'
+//   },
+//   {
+//     'email': 'john.promoboxx@gmail.com',
+//     'slack': '@U9159L4KE',
+//     'jira': '[~john.promoboxx]',
+//     'github': 'hujambo-dunia'
+//   },
+//   {
+//     'email': 'michelle@promoboxx.com',
+//     'slack': '@U7JQUB6JX',
+//     'jira': '[~michelle]',
+//     'github': 'hujambo-dunia'
+//   }
+// ];
 
 let use_subset,
 		get_subset = [];
