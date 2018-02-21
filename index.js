@@ -144,7 +144,7 @@ app.post('/', function(req, res){
 
 });
 
-if (out_channel.length > 0 ) {
+// if (out_channel.length > 0 ) {
 	app.get('/', function(req, res){
 	  res.send('hello!');
 	});
@@ -152,7 +152,7 @@ if (out_channel.length > 0 ) {
 	app.listen(port, function() {
 	    console.log('running on http://localhost:' + port);
 	});
-}
+// }
 
 function uniq(a) {
     return a.sort().filter(function(item, pos, ary) {
