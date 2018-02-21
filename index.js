@@ -153,6 +153,7 @@ app.post('/', function(req, res){
     });
   }
 
+
   // // Send message
   // for (var s = 0; s < out_channel.length; s++) {
   //   slack.sendMessage({
