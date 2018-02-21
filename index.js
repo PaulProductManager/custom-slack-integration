@@ -58,7 +58,7 @@ app.post('/', function(req, res){
       	break;
       case 'pull_request_review_comment':
         // Only look for Github Mentions in the most recent comment
-        out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
+        // out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
       case 'pull_request_review':
       case 'pull_request':
         // Create list of users: get github Requested Reviewers
@@ -138,7 +138,6 @@ app.post('/', function(req, res){
 	      ]
 	    });
 	  }
-
 	  res.sendStatus(200);
 	}
 
