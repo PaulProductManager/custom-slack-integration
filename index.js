@@ -87,6 +87,7 @@ app.post('/', function(req, res){
 
 
 
+
   if (in_header_user_agent.indexOf("atlassian") > -1) {
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
@@ -185,7 +186,7 @@ Tasks:
 - created Universal function to remove in_sender_slack channel from the out_channel before being sent to Slack
 - created Universal function to filter Beta Users Only before moving to send-message portion
 - created Universal single-apostrophe escape function in the "out_" variables
-
+*/
 
 /**************************************************/
 /* VERSION 2 - Color-coded slack-channel messages */
@@ -199,5 +200,4 @@ Tasks:
 // out_color = '#ffb400';   // yellow
 // out_color = '#ff3000';   // red
 
-*/
 
