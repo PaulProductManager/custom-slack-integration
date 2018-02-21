@@ -32,7 +32,7 @@ let in_header_user_agent = '',
 let out_title = 'There was a minor error',
     out_channel_blob,
     out_channel = [],
-    out_color = null,
+    out_color = '#e8e8e8',
     out_msg = 'error',
     out_button_msg = 'button',
     out_button_url = 'error',
@@ -63,10 +63,7 @@ app.post('/', function(req, res){
       case 'pull_request_review':
       case 'pull_request':
         // Create msg
-        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
-        // out_color = '#43c681';		// green
-        // out_color = '#ffb400';		// yellow
-        // out_color = '#ff3000';		// red
+        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
@@ -118,13 +115,7 @@ app.post('/', function(req, res){
           out_channel = convertToSlack(USER_MAP, "jira", out_channel, true);
         }
         break;
-
-        // Convert Jira-to-Slack
     }
-
-    // TESTING ONLY
-    // out_channel = [];
-    // out_channel.push('@U9159L4KE');
   }
 
   // BETA-VERSION ONLY: Remove Slack channels that are not Beta Users
@@ -171,9 +162,7 @@ function uniq(a) {
 }
 
 function convertToSlack(in_map, in_type, in_obj, is_beta) {
-	/* where...
-							is_beta			=		will remove non-Beta Users from list
-	*/
+	/* where... is_beta			=		will remove non-Beta Users from list */
   let out_arr = [],
       get_subset = [];
 
@@ -187,52 +176,28 @@ function convertToSlack(in_map, in_type, in_obj, is_beta) {
       // out_error.push('Multiple users found with Github ID: ' + in_obj[s].login);
     }
   }
-
-
-  // for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-  //   get_subset = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-  //   if (get_subset.length === 1) {
-  //     out_channel.push(get_subset[0].slack);
-  //   } else if (get_subset.length === 0) {
-  //     out_error.push('User not found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-  //   } else {
-  //     out_error.push('Multiple users found with Github ID: ' + req.body.pull_request.requested_reviewers[r].login);
-  //   }
-  // }
-
-
   return out_arr;
 }
 
+
 /*
 Tasks:
-
-- completed Jira Integration
-  - completed Comment created/updated path
-    + made variable names friendlier
-    - created final out_channel array
-    - removed comments / code cleanup
-  - completed Issue created/update path
-    - created final out_channel array
-- completed Github Integration
-  - added pull_request_review::approved pathway
-    - added "green" color
-    - added out_channel array
-    - added out_title
-  - added pull_request_review::change_requested pathway
-    - added "yellow" color
-    - added out_channel array
-    - added out_title
-  - added pull_request_review::rejected pathway
-    - added "red" color
-    - added out_channel array
-    - added out_title
-    - added out_channel array
-    - added out_title
 - created Universal function to remove in_sender_slack channel from the out_channel before being sent to Slack
 - created Universal function to filter Beta Users Only before moving to send-message portion
 - created Universal single-apostrophe escape function in the "out_" variables
 
 
+/**************************************************/
+/* VERSION 2 - Color-coded slack-channel messages */
+/**************************************************/
+
+/* (1) Pull Request logic for different "review.state" values (eg. "approved", etc) */
+// out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+
+/* (2) Pull Request color-coded logic for "review.state" values (eg. "approved", etc) */
+// out_color = '#43c681';   // green
+// out_color = '#ffb400';   // yellow
+// out_color = '#ff3000';   // red
 
 */
+
