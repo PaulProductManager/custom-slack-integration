@@ -45,7 +45,6 @@ app.post('/', function(req, res){
   out_channel = [];
   get_subset = [];
 
-
   // Determine incoming source
   in_header_user_agent = req.get('User-Agent').toLowerCase();
 
@@ -56,17 +55,12 @@ app.post('/', function(req, res){
       case 'push':
       case 'fork':
       case 'watch':  // star
-        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
-        break;
+      	break;
       case 'pull_request_review_comment':
+        // Only look for Github Mentions in the most recent comment
+        out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
       case 'pull_request_review':
       case 'pull_request':
-        // Create msg
-        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
-        // out_color = '#43c681';		// green
-        out_color = '#ffb400';		// yellow
-        // out_color = '#ff3000';		// red
-
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
           out_channel.push(req.body.pull_request.requested_reviewers[r].login);
@@ -84,8 +78,6 @@ app.post('/', function(req, res){
         break;
     }
   }
-
-
 
 
   if (in_header_user_agent.indexOf("atlassian") > -1) {
@@ -116,13 +108,7 @@ app.post('/', function(req, res){
           out_channel = convertToSlack(USER_MAP, "jira", out_channel, true);
         }
         break;
-
-        // Convert Jira-to-Slack
     }
-
-    // TESTING ONLY
-    // out_channel = [];
-    // out_channel.push('@U9159L4KE');
   }
 
   // BETA-VERSION ONLY: Remove Slack channels that are not Beta Users
@@ -137,30 +123,35 @@ app.post('/', function(req, res){
   // }
 
   // Send message
-  for (var s = 0; s < out_channel.length; s++) {
-    slack.sendMessage({
-      'channel': out_channel[s],
-      'text': out_title,
-      'attachments': [
-       {
-				'text': out_title,
-				'color': out_color,
-				'attachment_type': 'default'
-       }
-      ]
-    });
-  }
+  if (out_channel.length > 0 ) {
+	  for (var s = 0; s < out_channel.length; s++) {
+	    slack.sendMessage({
+	      'channel': out_channel[s],
+	      'text': out_title,
+	      'attachments': [
+	       {
+					'text': out_title,
+					'color': out_color,
+					'attachment_type': 'default'
+	       }
+	      ]
+	    });
+	  }
 
-  res.sendStatus(200);
-});
-//'*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your code review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
-app.get('/', function(req, res){
-  res.send('hello!');
+	  res.sendStatus(200);
+	}
+
 });
 
-app.listen(port, function() {
-    console.log('running on http://localhost:' + port);
-});
+if (out_channel.length > 0 ) {
+	app.get('/', function(req, res){
+	  res.send('hello!');
+	});
+
+	app.listen(port, function() {
+	    console.log('running on http://localhost:' + port);
+	});
+}
 
 function uniq(a) {
     return a.sort().filter(function(item, pos, ary) {
@@ -169,9 +160,7 @@ function uniq(a) {
 }
 
 function convertToSlack(in_map, in_type, in_obj, is_beta) {
-	/* where...
-							is_beta			=		will remove non-Beta Users from list
-	*/
+	/* where... is_beta			=		will remove non-Beta Users from list */
   let out_arr = [],
       get_subset = [];
 
@@ -204,33 +193,18 @@ function convertToSlack(in_map, in_type, in_obj, is_beta) {
 
 /*
 Tasks:
-
-- completed Jira Integration
-  - completed Comment created/updated path
-    + made variable names friendlier
-    - created final out_channel array
-    - removed comments / code cleanup
-  - completed Issue created/update path
-    - created final out_channel array
-- completed Github Integration
-  - added pull_request_review::approved pathway
-    - added "green" color
-    - added out_channel array
-    - added out_title
-  - added pull_request_review::change_requested pathway
-    - added "yellow" color
-    - added out_channel array
-    - added out_title
-  - added pull_request_review::rejected pathway
-    - added "red" color
-    - added out_channel array
-    - added out_title
-    - added out_channel array
-    - added out_title
 - created Universal function to remove in_sender_slack channel from the out_channel before being sent to Slack
 - created Universal function to filter Beta Users Only before moving to send-message portion
 - created Universal single-apostrophe escape function in the "out_" variables
 
 
+
+/* VERSION 2 - Color-coded slack-channel messages */
+
+// out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+
+// out_color = '#43c681';		// green
+// out_color = '#ffb400';		// yellow
+// out_color = '#ff3000';		// red
 
 */
