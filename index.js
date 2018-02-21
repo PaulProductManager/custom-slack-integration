@@ -141,12 +141,10 @@ app.post('/', function(req, res){
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
       'channel': out_channel[s],
-      'text': out_title,
       'attachments': [
        {
 				'text': out_title,
-				'color': out_color,
-				'attachment_type': 'default'
+				'color': out_color
        }
       ]
     });
@@ -154,6 +152,7 @@ app.post('/', function(req, res){
 
   res.sendStatus(200);
 });
+
 
 app.get('/', function(req, res){
   res.send('hello!');
