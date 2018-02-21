@@ -24,8 +24,6 @@ const USER_MAP = [
   }
 ];
 
-
-
 let use_subset,
     get_subset = [];
 let in_header_user_agent = '',
@@ -47,7 +45,6 @@ app.post('/', function(req, res){
   out_channel = [];
   get_subset = [];
 
-
   // Determine incoming source
   in_header_user_agent = req.get('User-Agent').toLowerCase();
 
@@ -58,7 +55,7 @@ app.post('/', function(req, res){
       case 'push':
       case 'fork':
       case 'watch':  // star
-        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+        // out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
         break;
       case 'pull_request_review_comment':
       case 'pull_request_review':
@@ -71,22 +68,20 @@ app.post('/', function(req, res){
           out_channel.push(req.body.pull_request.requested_reviewers[r].login);
         }
 
-        // Unique mentions only
-        out_channel = uniq(out_channel);
+        if (out_channel) {
+	        // Unique mentions only
+	        out_channel = uniq(out_channel);
 
-        // Remove sender from list
-        out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
+	        // Remove sender from list
+	        out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
 
-        // Get slack-channel users
-        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+	        // Get slack-channel users
+	        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+	      }
 
         break;
     }
   }
-
-
-
-
 
 
 
@@ -104,9 +99,9 @@ app.post('/', function(req, res){
         // Only look for Jira Mentions in the most recent comment
         out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
         out_channel = out_channel_blob.match(jira_mention_regex);
-        if (out_channel) {    // if not empty array, perform more transforms
-          // TESTING ONLY
-          out_title = out_title + ' *** before: ' + out_channel.join();
+        if (out_channel) {
+          // // TESTING ONLY
+          // out_title = out_title + ' *** before: ' + out_channel.join();
 
           // Unique mentions only
           out_channel = uniq(out_channel);
@@ -150,18 +145,19 @@ app.post('/', function(req, res){
 
 
 
+
 app.get('/', function(req, res){
   res.send('hello!');
 });
 
 app.listen(port, function() {
-    console.log('running on http://localhost:' + port);
+  console.log('running on http://localhost:' + port);
 });
 
 function uniq(a) {
-    return a.sort().filter(function(item, pos, ary) {
-        return !pos || item != ary[pos - 1];
-    })
+  return a.sort().filter(function(item, pos, ary) {
+      return !pos || item != ary[pos - 1];
+  })
 }
 
 function convertToSlack(in_map, in_type, in_obj, is_beta) {
