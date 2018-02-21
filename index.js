@@ -66,7 +66,6 @@ app.post('/', function(req, res){
         // out_color = '#43c681';		// green
         out_color = '#ffb400';		// yellow
         // out_color = '#ff3000';		// red
-        out_title = out_title + ' *** ' + out_color;
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
@@ -121,8 +120,6 @@ app.post('/', function(req, res){
         // Convert Jira-to-Slack
     }
 
-
-
     // TESTING ONLY
     // out_channel = [];
     // out_channel.push('@U9159L4KE');
@@ -153,33 +150,6 @@ app.post('/', function(req, res){
       ]
     });
   }
-
-
-  // // Send message
-  // for (var s = 0; s < out_channel.length; s++) {
-  //   slack.sendMessage({
-  //     'channel': out_channel[s],
-  //     'text': out_title,
-  //     'attachments': [
-  //      {
-  //     //    'text': '',
-  //     //    'fallback': 'You are unable to choose an action',
-  //     //    'callback_id': 'wopr_game',
-  //        'color': out_color,
-  //        'attachment_type': 'default'
-  //     //    'actions': [
-  //     //      {
-  //     //        'name': 'github',
-  //     //        'text': out_button_msg,
-  //     //        'style': 'primary',
-  //     //        'type': 'button',
-  //     //        'value': 'pull_request'
-  //     //      }
-  //     //    ]
-  //      }
-  //     ]
-  //   });
-  // }
 
   res.sendStatus(200);
 });
