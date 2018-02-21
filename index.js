@@ -55,10 +55,9 @@ app.post('/', function(req, res){
       case 'push':
       case 'fork':
       case 'watch':  // star
-      	break;
+        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+        break;
       case 'pull_request_review_comment':
-        // Only look for Github Mentions in the most recent comment
-        // out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
       case 'pull_request_review':
       case 'pull_request':
         // Create list of users: get github Requested Reviewers
@@ -78,7 +77,6 @@ app.post('/', function(req, res){
         break;
     }
   }
-
 
 
   if (in_header_user_agent.indexOf("atlassian") > -1) {
@@ -123,36 +121,31 @@ app.post('/', function(req, res){
    //  }
   // }
 
-
   // Send message
-  if (out_channel.length > 0 ) {
-	  for (var s = 0; s < out_channel.length; s++) {
-	    slack.sendMessage({
-	      'channel': out_channel[s],
-	      'text': out_title,
-	      'attachments': [
-	       {
-					'text': out_title,
-					'color': out_color,
-					'attachment_type': 'default'
-	       }
-	      ]
-	    });
-	  }
-	  res.sendStatus(200);
-	}
+  for (var s = 0; s < out_channel.length; s++) {
+    slack.sendMessage({
+      'channel': out_channel[s],
+      'text': out_title,
+      'attachments': [
+       {
+				'text': out_title,
+				'color': out_color,
+				'attachment_type': 'default'
+       }
+      ]
+    });
+  }
 
+  res.sendStatus(200);
+});
+//'*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your code review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
+app.get('/', function(req, res){
+  res.send('hello!');
 });
 
-// if (out_channel.length > 0 ) {
-	app.get('/', function(req, res){
-	  res.send('hello!');
-	});
-
-	app.listen(port, function() {
-	    console.log('running on http://localhost:' + port);
-	});
-// }
+app.listen(port, function() {
+    console.log('running on http://localhost:' + port);
+});
 
 function uniq(a) {
     return a.sort().filter(function(item, pos, ary) {
