@@ -24,8 +24,6 @@ const USER_MAP = [
   }
 ];
 
-
-
 let use_subset,
     get_subset = [];
 let in_header_user_agent = '',
@@ -47,7 +45,6 @@ app.post('/', function(req, res){
   out_channel = [];
   get_subset = [];
 
-
   // Determine incoming source
   in_header_user_agent = req.get('User-Agent').toLowerCase();
 
@@ -58,7 +55,7 @@ app.post('/', function(req, res){
       case 'push':
       case 'fork':
       case 'watch':  // star
-        out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
+        // out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
         break;
       case 'pull_request_review_comment':
       case 'pull_request_review':
@@ -86,10 +83,6 @@ app.post('/', function(req, res){
 
 
 
-
-
-
-
   if (in_header_user_agent.indexOf("atlassian") > -1) {
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
@@ -105,8 +98,8 @@ app.post('/', function(req, res){
         out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
         out_channel = out_channel_blob.match(jira_mention_regex);
         if (out_channel) {    // if not empty array, perform more transforms
-          // TESTING ONLY
-          out_title = out_title + ' *** before: ' + out_channel.join();
+          // // TESTING ONLY
+          // out_title = out_title + ' *** before: ' + out_channel.join();
 
           // Unique mentions only
           out_channel = uniq(out_channel);
@@ -155,13 +148,13 @@ app.get('/', function(req, res){
 });
 
 app.listen(port, function() {
-    console.log('running on http://localhost:' + port);
+  console.log('running on http://localhost:' + port);
 });
 
 function uniq(a) {
-    return a.sort().filter(function(item, pos, ary) {
-        return !pos || item != ary[pos - 1];
-    })
+  return a.sort().filter(function(item, pos, ary) {
+      return !pos || item != ary[pos - 1];
+  })
 }
 
 function convertToSlack(in_map, in_type, in_obj, is_beta) {
