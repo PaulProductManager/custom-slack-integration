@@ -63,7 +63,9 @@ app.post('/', function(req, res){
       case 'pull_request':
         // Create msg
         out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
-        out_color = '#FFFF00';
+        // out_color = '#43c681';		// green
+        out_color = '#ffb400';		// yellow
+        // out_color = '#ff3000';		// red
         out_title = out_title + ' *** ' + out_color;
 
         // Create list of users: get github Requested Reviewers
