@@ -68,14 +68,16 @@ app.post('/', function(req, res){
           out_channel.push(req.body.pull_request.requested_reviewers[r].login);
         }
 
-        // Unique mentions only
-        out_channel = uniq(out_channel);
+        if (out_channel) {
+	        // Unique mentions only
+	        out_channel = uniq(out_channel);
 
-        // Remove sender from list
-        out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
+	        // Remove sender from list
+	        out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
 
-        // Get slack-channel users
-        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+	        // Get slack-channel users
+	        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
+	      }
 
         break;
     }
@@ -97,7 +99,7 @@ app.post('/', function(req, res){
         // Only look for Jira Mentions in the most recent comment
         out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
         out_channel = out_channel_blob.match(jira_mention_regex);
-        if (out_channel) {    // if not empty array, perform more transforms
+        if (out_channel) {
           // // TESTING ONLY
           // out_title = out_title + ' *** before: ' + out_channel.join();
 
