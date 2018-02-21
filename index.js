@@ -76,7 +76,7 @@ app.post('/', function(req, res){
         out_channel = uniq(out_channel);
 
         // Remove sender from list
-        out_channel = out_channel.filter(function(a){return a !== '[~' + req.body.sender.login + ']'});
+        out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
 
         // Get slack-channel users
         out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
@@ -154,7 +154,7 @@ app.post('/', function(req, res){
 
   res.sendStatus(200);
 });
-//'*<' + req.body.sender.url + '|' + req.body.sender.login + '>* requests your code review for Pull Request <' + req.body.repository.url + '|' + req.body.repository.name + '>';
+
 app.get('/', function(req, res){
   res.send('hello!');
 });
