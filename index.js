@@ -145,24 +145,39 @@ app.post('/', function(req, res){
       'text': out_title,
       'attachments': [
        {
-      //    'text': '',
-      //    'fallback': 'You are unable to choose an action',
-      //    'callback_id': 'wopr_game',
-         'color': out_color,
-         'attachment_type': 'default'
-      //    'actions': [
-      //      {
-      //        'name': 'github',
-      //        'text': out_button_msg,
-      //        'style': 'primary',
-      //        'type': 'button',
-      //        'value': 'pull_request'
-      //      }
-      //    ]
+				'text': out_title,
+				'color': out_color,
+				'attachment_type': 'default'
        }
       ]
     });
   }
+
+  // // Send message
+  // for (var s = 0; s < out_channel.length; s++) {
+  //   slack.sendMessage({
+  //     'channel': out_channel[s],
+  //     'text': out_title,
+  //     'attachments': [
+  //      {
+  //     //    'text': '',
+  //     //    'fallback': 'You are unable to choose an action',
+  //     //    'callback_id': 'wopr_game',
+  //        'color': out_color,
+  //        'attachment_type': 'default'
+  //     //    'actions': [
+  //     //      {
+  //     //        'name': 'github',
+  //     //        'text': out_button_msg,
+  //     //        'style': 'primary',
+  //     //        'type': 'button',
+  //     //        'value': 'pull_request'
+  //     //      }
+  //     //    ]
+  //      }
+  //     ]
+  //   });
+  // }
 
   res.sendStatus(200);
 });
