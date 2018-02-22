@@ -24,6 +24,14 @@ const USER_MAP = [
   }
 ];
 
+
+/*
+Jake		U8XKWD2T1
+Corey		U0DRRL7EZ
+Justin	U894K2NHX
+Joseph	U0CR44TDY
+*/
+
 let use_subset,
     get_subset = [];
 let in_header_user_agent = '',
