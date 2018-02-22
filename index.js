@@ -48,7 +48,6 @@ const USER_MAP = [
   }
 ];
 
-
 let use_subset,
     get_subset = [];
 let in_header_user_agent = '',
@@ -108,9 +107,6 @@ app.post('/', function(req, res){
     }
   }
 
-
-
-
   if (in_header_user_agent.indexOf("atlassian") > -1) {
     switch (req.body['webhookEvent']) {
       case 'jira:issue_created':
@@ -142,17 +138,6 @@ app.post('/', function(req, res){
     }
   }
 
-  // BETA-VERSION ONLY: Remove Slack channels that are not Beta Users
-  // if (out_channel) {
-  //  use_subset = null;
-  //  get_subset = [];
-  //   // out_channel = USER_MAP.filter(function(e) {return e.github == req.body.pull_request.requested_reviewers[r].login;});
-  //   for (var c = 0; c < out_channel.length; c++) {
-   //    use_subset = USER_MAP.filter(function(e) {return e.slack == out_channel[c];});
-   //    get_subset.push(use_subset);
-   //  }
-  // }
-
   // Send message
   for (var s = 0; s < out_channel.length; s++) {
     slack.sendMessage({
@@ -168,9 +153,6 @@ app.post('/', function(req, res){
 
   res.sendStatus(200);
 });
-
-
-
 
 app.get('/', function(req, res){
   res.send('hello!');
@@ -192,9 +174,24 @@ function convertToSlack(in_map, in_type, in_obj, is_beta) {
       get_subset = [];
 
   for (var s = 0; s < in_obj.length; s++) {
-    get_subset = in_map.filter(function(e) {return e[in_type] == in_obj[s];});    // LOGIN NEEDS TO BE CHANGED
+  	// Match by data-source type
+    get_subset = in_map.filter(function(e) {return e[in_type] == in_obj[s];});
+
     if (get_subset.length === 1) {
       out_arr.push(get_subset[0].slack);
+
+	    // If app is in Beta testing, then only add Beta users to the output array
+	    // (Beta users same as User Map until we have single-sign-on mapping feature implemented)
+	    if (is_beta) {
+	    	for (var b = 0; b < in_map.length; b++) {
+	    		if (in_map[b].slack == get_subset[0]) {
+	    			out_arr.push(get_subset[0].slack);
+	    		}
+	    	}
+	    } else {	// do not check for Beta users
+	    	out_arr.push(get_subset[0].slack);
+	    }
+
     } else if (get_subset.length === 0) {
       // out_error.push('User not found with Github ID: ' + in_obj[s].login);
     } else {
@@ -204,11 +201,14 @@ function convertToSlack(in_map, in_type, in_obj, is_beta) {
   return out_arr;
 }
 
+/**************************************************/
+/* VERSION 1 - Left for this version 						  */
+/**************************************************/
 
 /*
 Tasks:
-- created Universal function to remove in_sender_slack channel from the out_channel before being sent to Slack
 - created Universal function to filter Beta Users Only before moving to send-message portion
+- created Github Description & Comment fields check 'blob' check
 - created Universal single-apostrophe escape function in the "out_" variables
 */
 
@@ -223,5 +223,12 @@ Tasks:
 // out_color = '#43c681';   // green
 // out_color = '#ffb400';   // yellow
 // out_color = '#ff3000';   // red
+
+
+/**************************************************/
+/* VERSION 3 - single-sign-on 	  							  */
+/**************************************************/
+
+// single-sign-on mapping feature implemented
 
 
