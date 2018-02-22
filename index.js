@@ -21,16 +21,32 @@ const USER_MAP = [
     'slack': '@U7JQUB6JX',
     'jira': '[~michelle]',
     'github': 'XXXXXXXXXXXX'
+  },
+  {
+    'email': 'jake@promoboxx.com',
+    'slack': '@U8XKWD2T1',
+    'jira': '[~jake]',
+    'github': 'jaj2610'
+  },
+  {
+    'email': 'corey@promoboxx.com',
+    'slack': '@U0DRRL7EZ',
+    'jira': '[~corey]',
+    'github': 'cpsoinos'
+  },
+  {
+    'email': 'justin@promoboxx.com',
+    'slack': '@U894K2NHX',
+    'jira': '[~justin]',
+    'github': 'jhilde'
+  },
+  {
+    'email': 'joseph@promoboxx.com',
+    'slack': '@U0CR44TDY',
+    'jira': '[~joseph]',
+    'github': 'josephware'
   }
 ];
-
-
-/*
-Jake		U8XKWD2T1
-Corey		U0DRRL7EZ
-Justin	U894K2NHX
-Joseph	U0CR44TDY
-*/
 
 let use_subset,
     get_subset = [];
