@@ -53,7 +53,7 @@ let use_subset,
 let in_header_user_agent = '',
     in_sender_slack;
 let out_title = 'There was a minor error',
-    out_channel_blob,
+    out_channel_blob = '',
     out_channel = [],
     out_color = '#e8e8e8',
     out_msg = 'error',
@@ -83,7 +83,7 @@ app.post('/', function(req, res){
         break;
       case 'pull_request_review_comment':
       case 'issue_comment':
-        out_channel_blob = out_channel_blob + req.comment.body;
+        out_channel_blob = out_channel_blob + req.body.comment;
       case 'pull_request_review':
       case 'pull_request':
         // Create msg
