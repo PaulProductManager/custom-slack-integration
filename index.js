@@ -83,7 +83,7 @@ app.post('/', function(req, res){
         break;
       case 'pull_request_review_comment':
       case 'issue_comment':
-        out_channel_blob = out_channel_blob + req.body.comment.body;
+        out_channel_blob = out_channel_blob + req.comment.body;
       case 'pull_request_review':
       case 'pull_request':
         // Create msg
@@ -110,6 +110,7 @@ app.post('/', function(req, res){
         break;
     }
   }
+
 
 
   if (in_header_user_agent.indexOf("atlassian") > -1) {
