@@ -82,10 +82,14 @@ app.post('/', function(req, res){
         // out_title = '*' + req.body.sender.login + '* requests your code review for PR #<' + req.body.repository.url + '|1234>';
         break;
       case 'pull_request_review_comment':
+      case 'issue_comment':
+        out_channel_blob = out_channel_blob + req.body.comment.body;
       case 'pull_request_review':
       case 'pull_request':
         // Create msg
         out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+
+        out_title = out_title + ' *** ' + out_channel_blob;
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
