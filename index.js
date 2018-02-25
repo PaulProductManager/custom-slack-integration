@@ -89,7 +89,7 @@ app.post('/', function(req, res){
         out_title = '*' + req.body.sender.login + '* mentioned you in a Comment for PR #<' + req.body.issue.pull_request.html_url + '|' + req.body.issue.number + '>';
 
         // Look for Github Mentions within the Comment-Body
-        out_channel_blob = out_channel_blob + req.body.comment.body;
+        out_channel_blob = req.body.comment.body;
         out_channel = out_channel_blob.match(github_mention_regex);
 
         out_title = out_title + ' *** ' + out_channel_blob;		// TEST
