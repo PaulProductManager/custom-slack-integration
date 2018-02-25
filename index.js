@@ -98,6 +98,10 @@ app.post('/', function(req, res){
 	        // Create msg
 	        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
+	        // Look for Github Mentions within the Description-Body
+	        out_channel_blob = req.body.comment.body;
+	        out_channel = out_channel_blob.match(github_mention_regex);
+
 	        // Create list of users: get github Requested Reviewers
 	        for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
 	          out_channel.push('@' + req.body.pull_request.requested_reviewers[r].login);
