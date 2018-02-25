@@ -92,7 +92,7 @@ app.post('/', function(req, res){
         // out_channel = out_channel_blob.match(github_mention_regex);
 
         out_title = out_title + ' *** ' + out_channel_blob;		// TEST
-        out_channel.push('@hujambo-dunia');
+        out_channel.push('hujambo-dunia');
 
         break;
       case 'pull_request_review':
