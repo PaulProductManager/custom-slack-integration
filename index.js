@@ -62,6 +62,7 @@ let out_title = 'There was a minor error',
     out_button_fallback = 'error';
 let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
+let github_mention_regex = /\@[a-zA-Z0-9.@_']+/g;
 
 app.use(bodyParser.json());
 
@@ -83,7 +84,14 @@ app.post('/', function(req, res){
         break;
       case 'pull_request_review_comment':
       case 'issue_comment':
-        // out_channel_blob = out_channel_blob + req.body.comment.body;
+        // Create msg
+        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.issue.pull_request.html_url + '|' + req.body.issue.number + '>';
+
+        // Look for Github Mentions within the Comment-Body
+        out_channel_blob = out_channel_blob + req.body.comment.body;
+        out_channel = out_channel_blob.match(github_mention_regex);
+
+        break;
       case 'pull_request_review':
       case 'pull_request':
         // Create msg
@@ -96,18 +104,18 @@ app.post('/', function(req, res){
           out_channel.push(req.body.pull_request.requested_reviewers[r].login);
         }
 
-        if (out_channel) {
-	        // Unique mentions only
-	        out_channel = uniq(out_channel);
-
-	        // Remove sender from list
-	        out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
-
-	        // Get slack-channel users
-	        out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
-	      }
-
         break;
+    }
+
+    if (out_channel) {
+      // Unique mentions only
+      out_channel = uniq(out_channel);
+
+      // Remove sender from list
+      out_channel = out_channel.filter(function(a){return a !== req.body.sender.login});
+
+      // Get slack-channel users
+      out_channel = convertToSlack(USER_MAP, "github", out_channel, true);
     }
   }
 
@@ -128,10 +136,8 @@ app.post('/', function(req, res){
         // Only look for Jira Mentions in the most recent comment
         out_channel_blob = out_channel_blob + ' ' + req.body['issue']['fields']['comment']['comments'][req.body['issue']['fields']['comment']['comments'].length-1]['body'];
         out_channel = out_channel_blob.match(jira_mention_regex);
-        if (out_channel) {
-          // // TESTING ONLY
-          // out_title = out_title + ' *** before: ' + out_channel.join();
 
+        if (out_channel) {
           // Unique mentions only
           out_channel = uniq(out_channel);
 
