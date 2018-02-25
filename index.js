@@ -61,7 +61,7 @@ let out_title = 'There was a minor error',
     out_button_url = 'error',
     out_button_fallback = 'error';
 let out_error = [];
-let jira_mention_regex = /\[\~[a-zA-Z0-9.@_'- ]+\]/g;
+let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
 let github_mention_regex = /\@[a-zA-Z0-9.@_'-]+/g;
 
 app.use(bodyParser.json());
