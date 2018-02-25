@@ -64,7 +64,6 @@ let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
 let github_mention_regex = /\@[a-zA-Z0-9.@_'-]+/g;
 
-
 app.use(bodyParser.json());
 
 app.post('/', function(req, res){
