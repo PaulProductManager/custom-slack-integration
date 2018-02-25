@@ -64,6 +64,7 @@ let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
 let github_mention_regex = /\@[a-zA-Z0-9.@_'-]+/g;
 
+
 app.use(bodyParser.json());
 
 app.post('/', function(req, res){
@@ -85,7 +86,7 @@ app.post('/', function(req, res){
       case 'pull_request_review_comment':
       case 'issue_comment':
         // Create msg
-        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.issue.pull_request.html_url + '|' + req.body.issue.number + '>';
+        out_title = '*' + req.body.sender.login + '* mentioned you in a Comment for PR #<' + req.body.issue.pull_request.html_url + '|' + req.body.issue.number + '>';
 
         // Look for Github Mentions within the Comment-Body
         out_channel_blob = out_channel_blob + req.body.comment.body;
@@ -97,7 +98,7 @@ app.post('/', function(req, res){
         // Create msg
         out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-        out_title = out_title + ' *** ' + out_channel_blob;
+        // out_title = out_title + ' *** ' + out_channel_blob;
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
