@@ -98,15 +98,17 @@ app.post('/', function(req, res){
         break;
       case 'pull_request_review':
       case 'pull_request':
-        // Create msg
-        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
+      	if (req.body.action != 'closed') {
+	        // Create msg
+	        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
-        // out_title = out_title + ' *** ' + out_channel_blob;
+	        // out_title = out_title + ' *** ' + out_channel_blob;
 
-        // Create list of users: get github Requested Reviewers
-        for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-          out_channel.push('@' + req.body.pull_request.requested_reviewers[r].login);
-        }
+	        // Create list of users: get github Requested Reviewers
+	        for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
+	          out_channel.push('@' + req.body.pull_request.requested_reviewers[r].login);
+	        }
+      	}
 
         break;
     }
