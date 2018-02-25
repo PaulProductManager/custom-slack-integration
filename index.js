@@ -64,6 +64,7 @@ let out_error = [];
 let jira_mention_regex = /\[\~[a-zA-Z0-9.@_' ]+\]/g;
 let github_mention_regex = /\@[a-zA-Z0-9.@_'-]+/g;
 
+
 app.use(bodyParser.json());
 
 app.post('/', function(req, res){
@@ -99,7 +100,7 @@ app.post('/', function(req, res){
 	        out_title = '*' + req.body.sender.login + '* mentioned you in PR #<' + req.body.pull_request.html_url + '|' + req.body.pull_request.number + '>';
 
 	        // Look for Github Mentions within the Description-Body
-	        out_channel_blob = req.body.comment.body;
+	        out_channel_blob = req.body.pull_request.body;
 	        out_channel = out_channel_blob.match(github_mention_regex);
 
 	        // Create list of users: get github Requested Reviewers
