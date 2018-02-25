@@ -8,43 +8,43 @@ const USER_MAP = [
     'email': 'paul.promoboxx@gmail.com',
     'slack': '@U8KG8HQJ2',
     'jira': '[~admin]',
-    'github': 'PaulProductManager'
+    'github': '@PaulProductManager'
   },
   {
     'email': 'john.promoboxx@gmail.com',
     'slack': '@U9159L4KE',
     'jira': '[~john.promoboxx]',
-    'github': 'hujambo-dunia'
+    'github': '@hujambo-dunia'
   },
   {
     'email': 'michelle@promoboxx.com',
     'slack': '@U7JQUB6JX',
     'jira': '[~michelle]',
-    'github': 'XXXXXXXXXXXX'
+    'github': '@XXXXXXXXXXXX'
   },
   {
     'email': 'jake@promoboxx.com',
     'slack': '@U8XKWD2T1',
     'jira': '[~jake]',
-    'github': 'jaj2610'
+    'github': '@jaj2610'
   },
   {
     'email': 'corey@promoboxx.com',
     'slack': '@U0DRRL7EZ',
     'jira': '[~corey]',
-    'github': 'cpsoinos'
+    'github': '@cpsoinos'
   },
   {
     'email': 'justin@promoboxx.com',
     'slack': '@U894K2NHX',
     'jira': '[~justin]',
-    'github': 'jhilde'
+    'github': '@jhilde'
   },
   {
     'email': 'joseph@promoboxx.com',
     'slack': '@U0CR44TDY',
     'jira': '[~joseph]',
-    'github': 'josephware'
+    'github': '@josephware'
   }
 ];
 
@@ -90,10 +90,10 @@ app.post('/', function(req, res){
 
         // Look for Github Mentions within the Comment-Body
         out_channel_blob = out_channel_blob + req.body.comment.body;
-        // out_channel = out_channel_blob.match(github_mention_regex);
+        out_channel = out_channel_blob.match(github_mention_regex);
 
         out_title = out_title + ' *** ' + out_channel_blob;		// TEST
-        out_channel.push('hujambo-dunia');
+        // out_channel.push('hujambo-dunia');
 
         break;
       case 'pull_request_review':
@@ -105,7 +105,7 @@ app.post('/', function(req, res){
 
         // Create list of users: get github Requested Reviewers
         for (var r = 0; r < req.body.pull_request.requested_reviewers.length; r++) {
-          out_channel.push(req.body.pull_request.requested_reviewers[r].login);
+          out_channel.push('@' + req.body.pull_request.requested_reviewers[r].login);
         }
 
         break;
